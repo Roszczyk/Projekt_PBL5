@@ -1,0 +1,1 @@
+Folder na pliki związane z programem na STM32+LoRa
