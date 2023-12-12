@@ -1,0 +1,1 @@
+Miejsce na pliki tworzone przy testowaniu, uruchamianiu pojedynczych modułów, tymczasowych zadań itp. 
