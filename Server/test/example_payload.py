@@ -97,6 +97,7 @@ def generate_random_payload(time="now", dev_eui="70B3D57ED0063437"):
 
     formatted_time = time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
     data["received_at"] = formatted_time
+    print(data["received_at"])
 
     if "gps_0" in data["decoded_payload"]:
         data["decoded_payload"]["gps_0"]["latitude"] += randomnes(0.0001)

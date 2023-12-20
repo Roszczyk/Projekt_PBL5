@@ -1,35 +1,31 @@
-# from flask_sqlalchemy import SQLAlchemy
-# from sqlalchemy import create_engine, MetaData, Table
-# from sqlalchemy.orm import sessionmaker
-# from datetime import datetime, timedelta
+# ta struktura try exepot dla iomportu jest po to, aby autoformater nie przestawiał importów nad sys.path.insert - tak musi być
 
-# from example_payload import generate_random_payload
-# import src.app as app
-
-
-# def generateFakePayloadTime(session, time="one day") -> dict:
-#     RAPORT_TIME = 60  # one hour
-
-#     if time == "one day":
-#         time = datetime.utcnow() - timedelta(days=1)
-
-#     while time < datetime.utcnow():
-#         payload = generate_random_payload(time=time)
-#         app.payload2db(payload, session)
-
-#         time += timedelta(minutes=RAPORT_TIME)
+try:
+    import sys
+    import os
+    sys.path.insert(0, os.path.abspath(
+        os.path.join(os.path.dirname(__file__), '..')))
+finally:
+    from datetime import datetime, timedelta
+    from example_payload import generate_random_payload
+    from src import app
 
 
-# engine = create_engine('sqlite:///data.db')
-# metadata = MetaData()
+def generateFakePayloadTime(session, time="one day") -> dict:
+    RAPORT_TIME = 60  # one hour
 
-# # Reflect the tables
-# metadata.reflect(bind=engine)
+    if time == "one day":
+        time = datetime.utcnow() - timedelta(days=1)
 
-# # Create a session
-# Session = sessionmaker(bind=engine)
-# session = Session()
+    while time < datetime.utcnow():
+        payload = generate_random_payload(time=time)
+        app.payload2db(payload, session)
 
-# generate_random_payload.counter = 0
+        time += timedelta(minutes=RAPORT_TIME)
 
-# generateFakePayloadTime(session)
+
+if __name__ == '__main__':
+
+    with app.app.app_context():
+        app.db.create_all()
+    generateFakePayloadTime(app.db.session)

@@ -1,6 +1,5 @@
 from flask_swagger import swagger
 from flask_swagger_ui import get_swaggerui_blueprint
-
 from flask import Flask, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import DECIMAL
@@ -24,9 +23,9 @@ class Device_EUI(db.Model):
 
 class Data(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # device_id = db.Column(db.Integer, db.ForeignKey('device_eui.id'))
-    # device = db.relationship('Device_EUI')
-    dev_eui = db.Column(db.String)
+    device_id = db.Column(db.Integer, db.ForeignKey('device_eui.id'))
+    device = db.relationship('Device_EUI')
+
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     temperature = db.Column(DECIMAL(precision=4, scale=1))
     humidity = db.Column(DECIMAL(precision=4, scale=1))
@@ -35,9 +34,11 @@ class Data(db.Model):
 
 
 def payload2db(payload: str, session=db.session):
-    print(time(), "payload2db")
     payload = json.loads(payload)
-    # Extract the values you're interested in
+
+    dev_eui = payload['dev_EUI']
+    timestamp = datetime.fromisoformat(payload['received_at'])
+
     temperature = payload['decoded_payload']['temperature_0']
     humidity = payload['decoded_payload']['relative_humidity_0']
 
@@ -47,20 +48,18 @@ def payload2db(payload: str, session=db.session):
     else:
         gps_lat, gps_lon = None, None
 
-    dev_eui = payload['dev_EUI']
-
     with app.app_context():
-        # # Check if the device already exists in the database
-        # device = Device_EUI.query.filter_by(dev_eui=dev_eui).first()
+        # Check if the device already exists in the database
+        device = Device_EUI.query.filter_by(dev_eui=dev_eui).first()
 
-        # # If the device doesn't exist, create a new one
-        # if device is None:
-        #     device = Device_EUI(dev_eui=dev_eui)
-        #     session.add(device)
-        #     session.commit()
+        # If the device doesn't exist, create a new one
+        if device is None:
+            device = Device_EUI(dev_eui=dev_eui)
+            session.add(device)
+            session.commit()
 
-        # Create a new Data object and add it to the database # device_id=device.id,
-        data = Data(dev_eui=dev_eui,
+        # Create a new Data object and add it to the database
+        data = Data(device_id=device.id, timestamp=timestamp,
                     temperature=temperature, humidity=humidity, gps_lat=gps_lat, gps_lon=gps_lon)
         session.add(data)
         session.commit()
@@ -129,6 +128,7 @@ def get_gps():
     if data:
         result = {'timestamp': data.timestamp,
                   'gps_lat': data.gps_lat, 'gps_lon': data.gps_lon}
+        print(time(), result)
         return jsonify(result)
     else:
         return jsonify({'message': 'No GPS location available.'}), 404
@@ -167,4 +167,5 @@ if __name__ == '__main__':
 
     app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
 
-    app.run(debug=True)
+    # NAPRAWIONE: debug=False musi być, bo inaczej callbacki mqtt są dwukrotnie.
+    app.run(debug=False)
