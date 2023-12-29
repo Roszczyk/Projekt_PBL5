@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="25dp"
     android:background="@drawable/gradient_bg"
+    android:orientation="vertical"
+    android:padding="25dp"
+    android:fontFamily="sans-serif-light"
     tools:context=".MainActivity">
 
     <RelativeLayout
@@ -19,11 +19,11 @@
         <LinearLayout
             android:id="@+id/addressContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
+            android:layout_height="149dp"
             android:layout_weight="1"
             android:background="#CCFFFFFF"
+            android:gravity="center"
+            android:orientation="vertical"
             android:padding="8dp">
 
 
@@ -31,13 +31,24 @@
                 android:id="@+id/address"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Location"
+                android:fontFamily="casual"
+                android:fontWeight="800"
+                android:text="Intenet of Bees"
+                android:textSize="35dp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Your hive"
                 android:textSize="24dp" />
 
             <TextView
                 android:id="@+id/updated_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
                 android:text="20 April 2012, 20:08 PM"
                 android:textSize="14dp" />
         </LinearLayout>
@@ -51,7 +62,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="134dp"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -66,7 +77,7 @@
 
                     <ImageView
                         android:layout_width="50dp"
-                        android:layout_height="47dp"
+                        android:layout_height="50dp"
                         android:src="@drawable/thermometer"
                         app:tint="#000000" />
 
@@ -77,13 +88,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
                         android:text="Temperature"
                         android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/temperature"
-                        android:layout_width="51dp"
-                        android:layout_height="30dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:text="23°C"
                         android:textSize="20dp" />
                 </LinearLayout>
@@ -102,7 +115,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/humidity"
                         app:tint="#000000" />
@@ -114,12 +127,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sunset"
+                        android:fontFamily="sans-serif-condensed-light"
+                        android:text="Humidity"
                         android:textSize="16dp" />
 
                     <TextView
                         android:id="@+id/humidity"
                         android:layout_width="wrap_content"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:layout_height="wrap_content"
                         android:text="45%"
                         android:textSize="20dp" />
@@ -139,7 +154,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/openclose"
                         app:tint="#000000" />
@@ -151,6 +166,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-condensed-light"
                         android:text="Cover"
                         android:textSize="16dp" />
 
@@ -158,8 +174,9 @@
                         android:id="@+id/openstatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="OPEN"
-                        android:textSize="13dp" />
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="open"
+                        android:textSize="20dp" />
 
                 </LinearLayout>
 
@@ -171,7 +188,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="119dp"
+                android:layout_height="150dp"
                 android:orientation="horizontal"
                 android:weightSum="3">
 
@@ -185,7 +202,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/light"
                         app:tint="#000000" />
@@ -204,8 +221,9 @@
                         android:id="@+id/lightstatus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ON"
-                        android:textSize="14dp" />
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text="on"
+                        android:textSize="20dp" />
                 </LinearLayout>
 
                 <Space
@@ -222,7 +240,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/contol"
                         app:tint="#000000" />
@@ -234,8 +252,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:fontFamily="sans-serif-condensed-medium"
                         android:text="Control panel"
-                        android:textSize="16dp" />
+                        android:textSize="20dp" />
 
 
                 </LinearLayout>
@@ -249,12 +269,13 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#CCFFFFFF"
+                    android:clickable="true"
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:src="@drawable/map"
                         app:tint="#000000" />
@@ -266,8 +287,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="MAP"
-                        android:textSize="16dp" />
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:textAlignment="center"
+                        android:text="Location"
+                        android:textSize="20dp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -275,6 +298,14 @@
 
 
     </RelativeLayout>
+
+    <ProgressBar android:id="@+id/loader" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+    <TextView android:id="@+id/errorText" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerInParent="true"
+        android:visibility="gone" android:text="Something went wrong"/>
 
 
 </RelativeLayout>
