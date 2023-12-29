@@ -27,8 +27,8 @@ class Data(db.Model):
     device = db.relationship('Device_EUI')
 
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
-    temperature = db.Column(DECIMAL(precision=4, scale=1))
-    humidity = db.Column(DECIMAL(precision=4, scale=1))
+    temperature = db.Column(DECIMAL(precision=4, scale=1), nullable=True)
+    humidity = db.Column(DECIMAL(precision=4, scale=1), nullable=True)
     gps_lat = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
     gps_lon = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
 
@@ -100,7 +100,50 @@ def get_tempHum():
         print(time(), result[:5])
         return jsonify(result)
     else:
-        return jsonify({'message': 'No data available.'}), 404
+        return jsonify({'message': 'No data available.'}), 204
+
+
+@app.route('/data/senors', methods=['GET'])
+def get_sensors():
+    """
+    Get current GPS location, temperature and humidity.
+    ---
+    responses:
+        200:
+            description: Current GPS location, temperature and humidity.
+            schema:
+                type: object
+                properties:
+                    timestamp:
+                        type: string
+                        format: date-time
+                    gps_lat:
+                        type: number
+                    gps_lon:
+                        type: number
+                    temperature:
+                        type: number
+                    humidity:
+                        type: number
+    """
+    data_tempHum = Data.query.filter(Data.temperature.isnot(
+        None), Data.humidity.isnot(None)).order_by(Data.timestamp.desc()).first()
+    data_gps = Data.query.filter(Data.gps_lat.isnot(None), Data.gps_lon.isnot(
+        None)).order_by(Data.timestamp.desc()).first()
+
+    result = {'temperature': None, 'humidity': None,
+              'gps_lat': None, 'gps_lon': None}
+
+    if data_tempHum:
+        result['temperature'] = data_tempHum.temperature
+        result['humidity'] = data_tempHum.humidity
+
+    if data_gps:
+        result['gps_lat'] = data_gps.gps_lat
+        result['gps_lon'] = data_gps.gps_lon
+
+    print(time(), result)
+    return jsonify(result)
 
 
 @app.route('/data/gps', methods=['GET'])
@@ -131,7 +174,7 @@ def get_gps():
         print(time(), result)
         return jsonify(result)
     else:
-        return jsonify({'message': 'No GPS location available.'}), 404
+        return jsonify({'message': 'No GPS location available.'}), 204
 
 
 @app.route('/swagger.json')

@@ -95,7 +95,7 @@ def generate_random_payload(time="now", dev_eui="70B3D57ED0063437"):
     if time == "now":
         time = datetime.utcnow()
 
-    formatted_time = time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z"
+    formatted_time = time.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
     data["received_at"] = formatted_time
     print(data["received_at"])
 
