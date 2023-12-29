@@ -17,28 +17,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btn = findViewById(R.id.btn)
-
-        tele = findViewById(R.id.tele)
-
-        progressBar = findViewById(R.id.idLoadingPB)
-
-
-        btn.setOnClickListener {
-            // show the progress bar
-            progressBar.visibility = View.VISIBLE
-
-//            ApiCall().getTempHum(this) { tempHum ->
-//                tele.text = tempHum.humidity.toString()
+//        btn = findViewById(R.id.btn)
+//
+//        tele = findViewById(R.id.tele)
+//
+//        progressBar = findViewById(R.id.idLoadingPB)
+//
+//
+//        btn.setOnClickListener {
+//            // show the progress bar
+//            progressBar.visibility = View.VISIBLE
+//
+////            ApiCall().getTempHum(this) { tempHum ->
+////                tele.text = tempHum.humidity.toString()
+////                progressBar.visibility = View.GONE
+////            }
+//
+//            ApiCall().getgps(this) { gps ->
+//                tele.text = gps.gps_lon.toString()
 //                progressBar.visibility = View.GONE
 //            }
-
-            ApiCall().getgps(this) { gps ->
-                tele.text = gps.gps_lon.toString()
-                progressBar.visibility = View.GONE
-            }
-        }
-//        ApiCall().getgps(this) { gps ->
+//        }
+////        ApiCall().getgps(this) { gps ->
 //            tele.text = gps.gps_lon.toString()
 //            if(gps.message != null)
 //                tele.text = "no data"
