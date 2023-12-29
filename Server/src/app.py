@@ -100,7 +100,7 @@ def get_tempHum():
         print(time(), result[:5])
         return jsonify(result)
     else:
-        return jsonify({'message': 'No data available.'}), 405
+        return jsonify({'message': 'No data available.'}), 204
 
 
 @app.route('/data/senors', methods=['GET'])
@@ -174,7 +174,7 @@ def get_gps():
         print(time(), result)
         return jsonify(result)
     else:
-        return jsonify({'message': 'No GPS location available.'}), 405
+        return jsonify({'message': 'No GPS location available.'}), 204
 
 
 @app.route('/swagger.json')
