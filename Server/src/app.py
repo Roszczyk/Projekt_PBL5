@@ -112,10 +112,10 @@ def get_tempHum():
         return jsonify({'message': 'No data available.'}), 204
 
 
-@app.route('/data/senors', methods=['GET'])
+@app.route('/data/sensors', methods=['GET'])
 def get_sensors():
     """
-    Get current GPS location, temperature, humidity and digital input.
+    Get current GPS location, temperature, humidity and digital input and state of lights, heating.
     ---
     responses:
         200:
