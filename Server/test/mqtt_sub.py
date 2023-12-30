@@ -12,8 +12,7 @@ def on_connect(client, userdata, flags, rc):
 
 
 def on_message(client, userdata, message):
-    print("Received message '" + str(message.payload) + "' on topic '"
-          + message.topic + "' with QoS " + str(message.qos) + "\n")
+    print(f"Received message '{message.payload}' on topic '{message.topic}'")
 
 
 def on_subscribe(client, userdata, mid, granted_qos):
@@ -42,7 +41,8 @@ if __name__ == '__main__':
     client.connect("test.mosquitto.org", 1884)  # 91.121.93.94
 
     # Publish a message to a topic
-    topic = "PAM-PBL5/RIOT-test-uplink"
+    # topic = "PAM-PBL5/RIOT-test-uplink"
+    topic = "PAM-PBL5/RIOT-test-downlink"
 
     # Subscribe to the topic
     client.subscribe(topic)

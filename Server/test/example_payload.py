@@ -103,4 +103,22 @@ def generate_random_payload(time="now", dev_eui="70B3D57ED0063437"):
         data["decoded_payload"]["gps_0"]["latitude"] += randomnes(0.0001)
         data["decoded_payload"]["gps_0"]["longitude"] += randomnes(0.0001)
 
+    if generate_random_payload.counter % 3 == 0:
+        data["decoded_payload"]["digital_in_0"] = generate_random_payload.counter % 2
+
     return json.dumps(data)
+
+
+{
+    "f_port": 1,
+    "decoded_payload": {
+        "lights": True
+    }
+}
+
+{
+    "f_port": 1,
+    "decoded_payload": {
+        "heating": True
+    }
+}
