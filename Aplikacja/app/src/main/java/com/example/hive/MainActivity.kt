@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             ApiCall().getsensor(this) { payload ->
                 var temp =payload.temperature.toString()
                 var hum =payload.humidity.toString()
+
                 //TO DO when new version of payload NO GPS
                 ValOpen.text = payload.gps_lon.toString()
                 ValLight.text = payload.gps_lat.toString()
