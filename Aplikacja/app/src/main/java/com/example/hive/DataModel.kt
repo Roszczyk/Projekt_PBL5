@@ -7,8 +7,8 @@ import java.text.DecimalFormat
 // Model class for our Jokes
 data class DataModel(
     var digital_in: Boolean?,
-    var gps_lat: Double?,
-    var gps_lon: Double?,
+    var gps_lat: Double,
+    var gps_lon: Double,
     var humidity: Double?,
     var temperature: Double?,
     var timestamp: String?,
