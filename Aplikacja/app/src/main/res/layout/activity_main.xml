@@ -19,7 +19,7 @@
         <LinearLayout
             android:id="@+id/addressContainer"
             android:layout_width="match_parent"
-            android:layout_height="149dp"
+            android:layout_height="196dp"
             android:layout_weight="1"
             android:background="#CCFFFFFF"
             android:gravity="center"
@@ -34,21 +34,32 @@
                 android:fontFamily="casual"
                 android:fontWeight="800"
                 android:text="Intenet of Bees"
-                android:textSize="35dp" />
+                android:textSize="40dp" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="Your hive"
-                android:textSize="24dp" />
+                android:text="My hive"
+                android:textSize="35dp" />
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Last update:"
+                android:textSize="14dp" />
 
             <TextView
                 android:id="@+id/updated_at"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-medium"
+                android:fontFamily="sans-serif-condensed-light"
                 android:text="20 April 2012, 20:08 PM"
                 android:textSize="14dp" />
         </LinearLayout>
