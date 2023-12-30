@@ -1,4 +1,3 @@
-from flask import request
 from flask_swagger import swagger
 from flask_swagger_ui import get_swaggerui_blueprint
 from flask import Flask, jsonify
@@ -10,7 +9,6 @@ import paho.mqtt.client as mqtt
 from datetime import datetime, timedelta
 import json
 from time import time
-from distutils.util import strtobool
 
 
 app = Flask(__name__)
@@ -33,7 +31,6 @@ class Data(db.Model):
     humidity = db.Column(DECIMAL(precision=4, scale=1), nullable=True)
     gps_lat = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
     gps_lon = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
-    digital_in = db.Column(db.Boolean, nullable=True)
 
 
 def payload2db(payload: str, session=db.session):
@@ -44,8 +41,6 @@ def payload2db(payload: str, session=db.session):
 
     temperature = payload['decoded_payload']['temperature_0']
     humidity = payload['decoded_payload']['relative_humidity_0']
-
-    digital_in = payload['decoded_payload']['digital_in_0'] if "digital_in_0" in payload["decoded_payload"] else None
 
     if "gps_0" in payload["decoded_payload"]:
         gps_lat = payload['decoded_payload']['gps_0']['latitude']
@@ -65,7 +60,7 @@ def payload2db(payload: str, session=db.session):
 
         # Create a new Data object and add it to the database
         data = Data(device_id=device.id, timestamp=timestamp,
-                    temperature=temperature, humidity=humidity, gps_lat=gps_lat, gps_lon=gps_lon, digital_in=digital_in)
+                    temperature=temperature, humidity=humidity, gps_lat=gps_lat, gps_lon=gps_lon)
         session.add(data)
         session.commit()
 
@@ -74,10 +69,6 @@ def on_message(client, userdata, msg):
     payload = msg.payload.decode()
     print(time(), "payload received")
     payload2db(payload, db.session)
-
-
-def on_publish(client, userdata, mid):
-    print(time(), "Message published")
 
 
 @app.route('/data/tempHum', methods=['GET'])
@@ -115,7 +106,7 @@ def get_tempHum():
 @app.route('/data/senors', methods=['GET'])
 def get_sensors():
     """
-    Get current GPS location, temperature, humidity and digital input.
+    Get current GPS location, temperature and humidity.
     ---
     responses:
         200:
@@ -134,18 +125,14 @@ def get_sensors():
                         type: number
                     humidity:
                         type: number
-                    digital_in:
-                        type: boolean
     """
     data_tempHum = Data.query.filter(Data.temperature.isnot(
         None), Data.humidity.isnot(None)).order_by(Data.timestamp.desc()).first()
     data_gps = Data.query.filter(Data.gps_lat.isnot(None), Data.gps_lon.isnot(
         None)).order_by(Data.timestamp.desc()).first()
-    data_digital_in = Data.query.filter(Data.digital_in.isnot(
-        None)).order_by(Data.timestamp.desc()).first()
 
     result = {'temperature': None, 'humidity': None,
-              'gps_lat': None, 'gps_lon': None, 'digital_in': None}
+              'gps_lat': None, 'gps_lon': None}
 
     if data_tempHum:
         result['temperature'] = data_tempHum.temperature
@@ -154,9 +141,6 @@ def get_sensors():
     if data_gps:
         result['gps_lat'] = data_gps.gps_lat
         result['gps_lon'] = data_gps.gps_lon
-
-    if data_digital_in:
-        result['digital_in'] = data_digital_in.digital_in
 
     print(time(), result)
     return jsonify(result)
@@ -193,69 +177,6 @@ def get_gps():
         return jsonify({'message': 'No GPS location available.'}), 204
 
 
-@app.route('/data/<path>', methods=['POST'])
-def post_data(path):
-    """
-    Publishes lights/ heating boolean value to the MQTT broker.
-    ---
-    tags:
-      - Data
-    parameters:
-      - name: path
-        in: path
-        description: The path to publish the data to.
-        required: true
-        type: string
-        enum: [lights, heating]
-      - name: value
-        in: query
-        description: The value to publish.
-        required: true
-        type: boolean
-    responses:
-        200:
-            description: Data published successfully.
-            schema:
-                type: object
-                properties:
-                    message:
-                        type: string
-                        description: The success message.
-        400:
-            description: Invalid path or value.
-            schema:
-                type: object
-                properties:
-                    message:
-                        type: string
-                        description: The error message.
-    """
-    if path not in ('lights', 'heating'):
-        return jsonify({'message': 'Invalid path.'}), 400
-
-    value = request.args.get('value')
-    if value is None:
-        return jsonify({'message': 'Invalid value. A boolean is required.'}), 400
-
-    # Convert the value to a boolean
-    try:
-        value = bool(strtobool(value))
-    except ValueError:
-        return jsonify({'message': 'Invalid value. A boolean is required.'}), 400
-
-    # placeholder for proper payload to Helium/TTN
-    payload = {
-        "f_port": 1,
-        "payload": {
-            path: value
-        }
-    }
-
-    client.publish(topic_pub, json.dumps(payload))
-
-    return jsonify({'message': 'Data published successfully.'}), 200
-
-
 @app.route('/swagger.json')
 def swagger_json():
     return jsonify(swagger(app))
@@ -268,12 +189,10 @@ if __name__ == '__main__':
 
     client = mqtt.Client()
     client.on_message = on_message
-    client.on_publish = on_publish
 
     client.username_pw_set("rw", "readwrite")
     client.connect("test.mosquitto.org", 1884)
     topic_sub = "PAM-PBL5/RIOT-test-uplink"
-    topic_pub = "PAM-PBL5/RIOT-test-downlink"
 
     client.subscribe(topic_sub)
     client.loop_start()

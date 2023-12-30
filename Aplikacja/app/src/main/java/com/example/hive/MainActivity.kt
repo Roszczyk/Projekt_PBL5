@@ -1,9 +1,11 @@
 package com.example.hive
 
+import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -19,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ValOpen: TextView
     private lateinit var ValLight: TextView
     private lateinit var ValUpdate: TextView
+    private lateinit var BtnMap: LinearLayout
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         ValLight= findViewById(R.id.lightstatus)
         ValUpdate= findViewById(R.id.updated_at)
         progressBar = findViewById(R.id.loader)
+        BtnMap =findViewById(R.id.boxMap)
         progressBar.visibility = View.VISIBLE
 
 
@@ -53,6 +57,11 @@ class MainActivity : AppCompatActivity() {
             ValHum.text = "$hum%"
             progressBar.visibility = View.GONE
 
+        }
+
+        BtnMap.setOnClickListener() {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
         }
 
 
