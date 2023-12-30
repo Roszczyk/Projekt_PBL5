@@ -149,10 +149,12 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
+    dht_t dev;
+    initTemHum(&dev);
 
     while (1)
     {
-        getTempHum();
+        getTempHum(&dev);
 
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
@@ -372,6 +374,7 @@ int main(void)
     puts("Join procedure succeeded");
 
 #endif
+
 
     /* start the sender thread */
     sender_pid = thread_create(sender_stack, sizeof(sender_stack),
