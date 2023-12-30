@@ -123,9 +123,6 @@ def get_sensors():
             schema:
                 type: object
                 properties:
-                    timestamp:
-                        type: string
-                        format: date-time
                     gps_lat:
                         type: number
                     gps_lon:
@@ -135,6 +132,10 @@ def get_sensors():
                     humidity:
                         type: number
                     digital_in:
+                        type: boolean
+                    lights:
+                        type: boolean
+                    heating:
                         type: boolean
     """
     data_tempHum = Data.query.filter(Data.temperature.isnot(
@@ -157,6 +158,9 @@ def get_sensors():
 
     if data_digital_in:
         result['digital_in'] = data_digital_in.digital_in
+
+    result['lights'] = app.devices['lights']
+    result['heating'] = app.devices['heating']
 
     print(time(), result)
     return jsonify(result)
@@ -198,8 +202,6 @@ def post_data(path):
     """
     Publishes lights/ heating boolean value to the MQTT broker.
     ---
-    tags:
-      - Data
     parameters:
       - name: path
         in: path
@@ -230,7 +232,7 @@ def post_data(path):
                         type: string
                         description: The error message.
     """
-    if path not in ('lights', 'heating'):
+    if path not in app.devices:
         return jsonify({'message': 'Invalid path.'}), 400
 
     value = request.args.get('value')
@@ -242,6 +244,11 @@ def post_data(path):
         value = bool(strtobool(value))
     except ValueError:
         return jsonify({'message': 'Invalid value. A boolean is required.'}), 400
+
+    if value == app.devices[path]:
+        return jsonify({'message': 'Data already up to date.'}), 200
+
+    app.devices[path] = value
 
     # placeholder for proper payload to Helium/TTN
     payload = {
@@ -265,6 +272,8 @@ if __name__ == '__main__':
 
     with app.app_context():
         db.create_all()
+
+    app.devices = {'lights': False, 'heating': False}
 
     client = mqtt.Client()
     client.on_message = on_message
