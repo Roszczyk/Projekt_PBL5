@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ValHum: TextView
     private lateinit var ValOpen: TextView
     private lateinit var ValLight: TextView
+    private lateinit var ValHeat:TextView
     private lateinit var ValUpdate: TextView
     private lateinit var BtnMap: LinearLayout
     private lateinit var progressBar: ProgressBar
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         ValHum = findViewById(R.id.humidity)
         ValOpen = findViewById(R.id.openstatus)
         ValLight= findViewById(R.id.lightstatus)
+        ValHeat= findViewById(R.id.heatingstatus)
         ValUpdate= findViewById(R.id.updated_at)
         progressBar = findViewById(R.id.loader)
         BtnMap =findViewById(R.id.boxMap)
@@ -41,9 +43,14 @@ class MainActivity : AppCompatActivity() {
         ApiCall().getsensor(this) {payload ->
             var temp =payload.temperature.toString()
             var hum =payload.humidity.toString()
-
+            var cover = payload.digital_in.toString()
                 //TO DO when new version of payload NO GPS
-            ValOpen.text = payload.gps_lon.toString()
+            if (cover == "true")
+                ValOpen.text  ="open"
+            else
+                ValOpen.text = "closed"
+
+            ValHeat.text = payload.gps_lon.toString()
             ValLight.text = payload.gps_lat.toString()
                 //to this line
             //Setting correct timestamp of update for last update
