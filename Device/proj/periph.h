@@ -7,7 +7,7 @@
 float randomInRange(float min, float max);
 
 void initTemHum(dht_t * dev);
-bool getTempHum(void);
+bool getTempHum(dht_t * dev);
 bool getGPS(void);
 
 void setHeating(bool state);

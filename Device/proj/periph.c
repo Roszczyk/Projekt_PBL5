@@ -10,7 +10,7 @@ float randomInRange(float min, float max)
 void initTemHum(dht_t * dev)
 {
     dht_params_t my_params;
-    my_params.pin=GPIO_PIN(PORT_A, 8);
+    my_params.pin=GPIO_PIN(GPIOA, GPIO8);
     my_params.type=DHT11;
     my_params.in_mode=DHT_PARAM_PULL;
 
@@ -26,17 +26,17 @@ bool getTempHum(dht_t * dev)
 {
     puts("getTempHum");
 
-    int16_t temp, hum;
+    static const int16_t temp, hum;
     dht_read(dev, &temp, &hum);
 
     puts("temperature: %d, humidity: %d", temp, hum);
 
-    static const float baseTemperature = temp; //27.2; // Example temperature
-    static const float baseHumidity = hum; //35.4;    // Example humidity
-    static const float range = 1.0;            // Range of ±1
+    // static const float baseTemperature = temp; //27.2; // Example temperature
+    // static const float baseHumidity = hum; //35.4;    // Example humidity
+    // static const float range = 1.0;            // Range of ±1
 
-    float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
-    float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
+    // float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
+    // float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
     cayenne_lpp_add_temperature(&lpp, 0, temp);
     cayenne_lpp_add_relative_humidity(&lpp, 0, hum);
