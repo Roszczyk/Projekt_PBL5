@@ -9,8 +9,9 @@ data class DataModel(
     var digital_in: Boolean?,
     var gps_lat: Double,
     var gps_lon: Double,
+    var heating: Boolean?,
     var humidity: Double?,
+    var lights: Boolean,
     var temperature: Double?,
-    var timestamp: String?,
 ): java.io.Serializable
 

@@ -7,7 +7,7 @@ import retrofit.http.GET
 // service for getting random jokes.
 interface ApiService {
 
-    @GET("data/senors")
+    @GET("data/sensors")
     fun getsensors(): Call<DataModel>
 
     @GET("data/tempHum")

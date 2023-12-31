@@ -1,5 +1,6 @@
 package com.example.hive
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var BtnMap: LinearLayout
     private lateinit var progressBar: ProgressBar
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,19 +42,30 @@ class MainActivity : AppCompatActivity() {
         progressBar.visibility = View.VISIBLE
 
 
+
+
         ApiCall().getsensor(this) {payload ->
             var temp =payload.temperature.toString()
             var hum =payload.humidity.toString()
             var cover = payload.digital_in.toString()
-                //TO DO when new version of payload NO GPS
-            if (cover == "true")
+            var heat =payload.heating.toString()
+            var lig = payload.lights.toString()
+
+            if (cover == "true" || cover == "True")
                 ValOpen.text  ="open"
             else
                 ValOpen.text = "closed"
 
-            ValHeat.text = payload.gps_lon.toString()
-            ValLight.text = payload.gps_lat.toString()
-                //to this line
+            if (heat == "true")
+                ValHeat.text  ="on"
+            else
+                ValHeat.text = "off"
+
+            if (lig == "true" || lig == "True")
+                ValLight.text  ="on"
+            else
+                ValLight.text = "off"
+
             //Setting correct timestamp of update for last update
             val currentTimestamp = System.currentTimeMillis()
             val timeZone = TimeZone.getTimeZone("Europe/Warsaw")
