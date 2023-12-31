@@ -46,6 +46,7 @@ USEMODULE += xtimer
 FEATURES_REQUIRED += periph_gpio_irq
 USEMODULE += $(DRIVER)
 USEMODULE += fmt
+USEMODULE += dht
 FEATURES_OPTIONAL += periph_rtc
 
 # USEPKG += cayenne-lpp
