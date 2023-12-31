@@ -11,7 +11,7 @@ data class DataModel(
     var gps_lon: Double,
     var heating: Boolean?,
     var humidity: Double?,
-    var lights: Boolean?,
+    var lights: Boolean,
     var temperature: Double?,
 ): java.io.Serializable
 
