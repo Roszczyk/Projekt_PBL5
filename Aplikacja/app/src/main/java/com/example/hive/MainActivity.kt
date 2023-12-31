@@ -53,14 +53,14 @@ class MainActivity : AppCompatActivity() {
                 ValOpen.text = "closed"
 
             if (heat == "true")
-                ValOpen.text  ="on"
+                ValHeat.text  ="on"
             else
-                ValOpen.text = "off"
+                ValHeat.text = "off"
 
             if (lig == "true")
-                ValOpen.text  ="on"
+                ValLight.text  ="on"
             else
-                ValOpen.text = "off"
+                ValLight.text = "off"
 
 
                 //to this line
