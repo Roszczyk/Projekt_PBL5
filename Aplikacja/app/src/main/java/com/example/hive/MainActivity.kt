@@ -44,14 +44,25 @@ class MainActivity : AppCompatActivity() {
             var temp =payload.temperature.toString()
             var hum =payload.humidity.toString()
             var cover = payload.digital_in.toString()
+            var heat =payload.heating.toString()
+            var lig = payload.lights.toString()
                 //TO DO when new version of payload NO GPS
             if (cover == "true")
                 ValOpen.text  ="open"
             else
                 ValOpen.text = "closed"
 
-            ValHeat.text = payload.gps_lon.toString()
-            ValLight.text = payload.gps_lat.toString()
+            if (heat == "true")
+                ValOpen.text  ="on"
+            else
+                ValOpen.text = "off"
+
+            if (lig == "true")
+                ValOpen.text  ="on"
+            else
+                ValOpen.text = "off"
+
+
                 //to this line
             //Setting correct timestamp of update for last update
             val currentTimestamp = System.currentTimeMillis()
