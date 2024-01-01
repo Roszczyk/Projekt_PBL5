@@ -6,7 +6,7 @@
 
 float randomInRange(float min, float max);
 
-void initTemHum(dht_t * dev);
+void initTemHum(void);
 bool getTempHum(void);
 bool getGPS(void);
 

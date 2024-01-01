@@ -74,6 +74,8 @@ extern semtech_loramac_t loramac;
 // #endif
 
 cayenne_lpp_t lpp = {0};
+dht_t dev;
+
 
 #ifdef USE_OTAA
 static uint8_t deveui[LORAMAC_DEVEUI_LEN];
@@ -149,13 +151,12 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-    dht_t dev;
-    initTemHum(&dev);
+	puts("Sensor initialized");
 
     while (1)
     {
-        getTempHum(&dev);
-
+        getTempHum();
+	puts("TempHumReader active");
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
     }
@@ -375,6 +376,7 @@ int main(void)
 
 #endif
 
+	initTemHum();
 
     /* start the sender thread */
     sender_pid = thread_create(sender_stack, sizeof(sender_stack),
