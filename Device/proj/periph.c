@@ -12,16 +12,24 @@ void initTemHum(void)
 {
 	puts("Here, initialize");
     dht_params_t my_params;
+	puts("my_params declared");
     my_params.pin=GPIO_PIN(PORT_A, 8);
+	puts("port declared");
     my_params.type=DHT11;
+	puts("type declared");
     my_params.in_mode=DHT_PARAM_PULL;
+	puts("mode declared");
 
-    if(dht_init(&dev, &my_params)==DHT_OK){
-        puts("DHT sensor connected");
-    }
-    else{
-        puts("Failed to connect to DHT sensor");
-    }
+
+	dht_init(&dev, &my_params);
+	puts("Sensor initialized");
+
+//    if(dht_init(&dev, &my_params)==DHT_OK){
+//        puts("DHT sensor connected");
+//    }
+//    else{
+//        puts("Failed to connect to DHT sensor");
+//    }
 }
 
 bool getTempHum(void)
