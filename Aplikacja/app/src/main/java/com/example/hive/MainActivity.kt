@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ValUpdate: TextView
     private lateinit var BtnMap: LinearLayout
     private lateinit var BtnLight: LinearLayout
+    private lateinit var BtnHeat: LinearLayout
     private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,9 +47,11 @@ class MainActivity : AppCompatActivity() {
         progressBar = findViewById(R.id.loader)
         BtnMap = findViewById(R.id.boxMap)
         BtnLight = findViewById(R.id.boxlight)
+        BtnHeat = findViewById(R.id.boxheat)
         progressBar.visibility = View.VISIBLE
 
-        val baseUrl = "http://10.0.2.2:5000/data"
+        val baseUrl = "http://10.0.2.2:5000/data/"
+        val heaturl = "heating"
 
 
         ApiCall().getsensor(this) { payload ->
@@ -93,29 +96,68 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         BtnLight.setOnClickListener() {
-            val jsonParams = JSONObject()
-            jsonParams.put("heating", true)
-            ValTemp.text = "ssssp°C"
 
-            val request = JsonObjectRequest(
-                Request.Method.POST,"http://10.0.2.2:5000/data/heating?value=true", jsonParams,
-                { response ->
-                    println("DODANO TRENERA")
-                    ValTemp.text = "git°C"
+            ApiCall().getsensor(this) { payload ->
+                var lig = payload.lights
+                var str =""
 
-                },
-                { error ->
-                    // Obsługa błędu
-                    ValTemp.text = "error°C"
-                    Log.e("MainActivity", "Error during API call: ${error.localizedMessage}")
+                if (lig == true)
+                    str = "${baseUrl}lights?value=false"
+                else
+                    str = "${baseUrl}lights?value=true"
+                lig= !lig
 
+                val jsonParams = JSONObject()
 
+                val request = JsonObjectRequest(
+                    Request.Method.POST, "${str}", jsonParams,
+                    { response ->
 
-                }
-            )
-            Volley.newRequestQueue(this).add(request)
+                        if (lig == true)
+                            ValLight.text = "on"
+                        else
+                            ValLight.text = "off"
+
+                    },
+                    { error ->
+                        Log.e("MainActivity", "Error during API call: ${error.localizedMessage}")
+                    }
+                )
+                Volley.newRequestQueue(this).add(request)
+            }
         }
+        BtnHeat.setOnClickListener() {
 
+            ApiCall().getsensor(this) { payload ->
+                var heat = payload.heating
+                var str =""
+
+                if (heat == true)
+                    str = "${baseUrl}heating?value=false"
+                else
+                    str = "${baseUrl}heating?value=true"
+
+                heat= !heat!!
+
+                val jsonParams = JSONObject()
+
+                val request = JsonObjectRequest(
+                    Request.Method.POST, "${str}", jsonParams,
+                    { response ->
+
+                        if (heat == true)
+                            ValHeat.text = "on"
+                        else
+                            ValHeat.text = "off"
+
+                    },
+                    { error ->
+                        Log.e("MainActivity", "Error during API call: ${error.localizedMessage}")
+                    }
+                )
+                Volley.newRequestQueue(this).add(request)
+            }
+        }
     }
 
 }
