@@ -169,10 +169,10 @@
                     android:padding="8dp">
 
                     <ImageView
+                        android:id = "@+id/imgcover"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/openclose"
-                        app:tint="#000000" />
+                        />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -220,10 +220,11 @@
                     android:padding="8dp">
 
                     <ImageView
+                        android:id = "@+id/imglight"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/light"
-                        app:tint="#000000" />
+
+                       />
 
                     <Space
                         android:layout_width="wrap_content"
@@ -261,10 +262,11 @@
                     android:padding="8dp">
 
                     <ImageView
+                        android:id = "@+id/imgheat"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
-                        android:src="@drawable/heating"
-                        app:tint="#000000" />
+
+                         />
 
                     <Space
                         android:layout_width="wrap_content"

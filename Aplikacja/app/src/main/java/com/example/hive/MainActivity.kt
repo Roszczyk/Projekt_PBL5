@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
@@ -33,7 +34,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var BtnLight: LinearLayout
     private lateinit var BtnHeat: LinearLayout
     private lateinit var progressBar: ProgressBar
-
+    private lateinit var ImageLight: ImageView
+    private lateinit var ImageHeat: ImageView
+    private lateinit var ImageCover: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -48,10 +51,15 @@ class MainActivity : AppCompatActivity() {
         BtnMap = findViewById(R.id.boxMap)
         BtnLight = findViewById(R.id.boxlight)
         BtnHeat = findViewById(R.id.boxheat)
+        ImageLight = findViewById(R.id.imglight)
+        ImageHeat = findViewById(R.id.imgheat)
+        ImageCover = findViewById(R.id.imgcover)
         progressBar.visibility = View.VISIBLE
 
+
+
         val baseUrl = "http://10.0.2.2:5000/data/"
-        val heaturl = "heating"
+
 
 
         ApiCall().getsensor(this) { payload ->
@@ -61,20 +69,32 @@ class MainActivity : AppCompatActivity() {
             var heat = payload.heating.toString()
             var lig = payload.lights.toString()
             //TO DO when new version of payload NO GPS
-            if (cover == "true")
+            if (cover == "true") {
                 ValOpen.text = "open"
-            else
+                ImageCover.setImageResource(R.drawable.openclose)
+            }
+            else {
                 ValOpen.text = "closed"
+                ImageCover.setImageResource(R.drawable.close)
+            }
 
-            if (heat == "true")
-                ValHeat.text = "on"
-            else
-                ValHeat.text = "off"
 
-            if (lig == "true")
-                ValLight.text = "on"
-            else
-                ValLight.text = "off"
+            if (heat == "true") {
+                ValHeat.text = "ON"
+                ImageHeat.setImageResource(R.drawable.heatingon)
+            }
+            else{
+                ValHeat.text = "OFF"
+                ImageHeat.setImageResource(R.drawable.heating)
+            }
+            if (lig == "true") {
+                ValLight.text = "ON"
+                ImageLight.setImageResource(R.drawable.lighton)
+            }
+            else {
+                ValLight.text = "OFF"
+                ImageLight.setImageResource(R.drawable.light)
+            }
 
 
             //to this line
@@ -94,8 +114,12 @@ class MainActivity : AppCompatActivity() {
         BtnMap.setOnClickListener() {
             val intent = Intent(this, MapActivity::class.java)
             startActivity(intent)
+
         }
         BtnLight.setOnClickListener() {
+
+
+            ImageLight.setImageResource(R.drawable.lighton)
 
             ApiCall().getsensor(this) { payload ->
                 var lig = payload.lights
@@ -113,10 +137,14 @@ class MainActivity : AppCompatActivity() {
                     Request.Method.POST, "${str}", jsonParams,
                     { response ->
 
-                        if (lig == true)
-                            ValLight.text = "on"
-                        else
-                            ValLight.text = "off"
+                        if (lig == true) {
+                            ValLight.text = "ON"
+                            ImageLight.setImageResource(R.drawable.lighton)
+                        }
+                        else {
+                            ValLight.text = "OFF"
+                            ImageLight.setImageResource(R.drawable.light)
+                        }
 
                     },
                     { error ->
@@ -127,6 +155,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         BtnHeat.setOnClickListener() {
+
+
+
 
             ApiCall().getsensor(this) { payload ->
                 var heat = payload.heating
@@ -145,10 +176,14 @@ class MainActivity : AppCompatActivity() {
                     Request.Method.POST, "${str}", jsonParams,
                     { response ->
 
-                        if (heat == true)
-                            ValHeat.text = "on"
-                        else
-                            ValHeat.text = "off"
+                        if (heat == true) {
+                            ValHeat.text = "ON"
+                            ImageHeat.setImageResource(R.drawable.heatingon)
+                        }
+                        else{
+                            ValHeat.text = "OFF"
+                            ImageHeat.setImageResource(R.drawable.heating)
+                        }
 
                     },
                     { error ->
