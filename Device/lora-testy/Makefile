@@ -24,6 +24,7 @@ else
   $(error Unsupported activation mode '$(ACTIVATION_MODE)')
 endif
 
+
 # Send a message every 20s after joining the network
 SEND_PERIOD_S ?= 20
 

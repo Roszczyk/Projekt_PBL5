@@ -1,13 +1,14 @@
 #include "periph.h"
 
 extern cayenne_lpp_t lpp;
+extern dht_t dev;
 
 float randomInRange(float min, float max)
 {
     return min + ((float)rand() / RAND_MAX) * (max - min);
 }
 
-void initTemHum(dht_t * dev)
+void initTemHum(void)
 {
     dht_params_t my_params;
     my_params.pin=GPIO_PIN(PORT_A, 8);
@@ -22,21 +23,21 @@ void initTemHum(dht_t * dev)
     }
 }
 
-bool getTempHum(dht_t * dev)
+bool getTempHum(void)
 {
     puts("getTempHum");
 
     int16_t temp, hum;
-    dht_read(dev, &temp, &hum);
+    dht_read(&dev, &temp, &hum);
 
-    puts("temperature: %d, humidity: %d", temp, hum);
+    printf("temperature: %d, humidity: %d", temp, hum);
 
-    static const float baseTemperature = temp; //27.2; // Example temperature
-    static const float baseHumidity = hum; //35.4;    // Example humidity
-    static const float range = 1.0;            // Range of ±1
+    //static const float baseTemperature = temp; //27.2; // Example temperature
+    //static const float baseHumidity = hum; //35.4;    // Example humidity
+    //static const float range = 1.0;            // Range of ±1
 
-    float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
-    float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
+    //float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
+    //float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
     cayenne_lpp_add_temperature(&lpp, 0, temp);
     cayenne_lpp_add_relative_humidity(&lpp, 0, hum);
