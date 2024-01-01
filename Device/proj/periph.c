@@ -10,6 +10,7 @@ float randomInRange(float min, float max)
 
 void initTemHum(void)
 {
+	puts("Here, initialize");
     dht_params_t my_params;
     my_params.pin=GPIO_PIN(PORT_A, 8);
     my_params.type=DHT11;

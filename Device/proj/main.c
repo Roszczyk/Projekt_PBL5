@@ -377,6 +377,7 @@ int main(void)
 #endif
 
 	initTemHum();
+
     /* start the sender thread */
     sender_pid = thread_create(sender_stack, sizeof(sender_stack),
                                THREAD_PRIORITY_MAIN - 1, 0, sender, NULL, "sender");
