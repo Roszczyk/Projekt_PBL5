@@ -80,8 +80,40 @@ def on_publish(client, userdata, mid):
     print(time(), "Message published")
 
 
-@app.route('/data/tempHum', methods=['GET'])
-def get_tempHum():
+# @app.route('/data/tempHum', methods=['GET'])    # stara wersja
+# def get_tempHum():
+#     """
+#     Get temperature and humidity data for the last 24 hours.
+#     ---
+#     responses:
+#         200:
+#             description: A list of temperature and humidity data.
+#             schema:
+#                 type: array
+#                 items:
+#                     type: object
+#                     properties:
+#                         timestamp:
+#                             type: string
+#                             format: date-time
+#                         temperature:
+#                             type: number
+#                         humidity:
+#                             type: number
+#     """
+#     last_24h = datetime.utcnow() - timedelta(hours=24)
+#     data = Data.query.filter(Data.timestamp >= last_24h).all()
+#     if data:
+#         result = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'humidity': entry.humidity}
+#                   for entry in data]
+#         print(time(), result[:5])
+#         return jsonify(result)
+#     else:
+#         return jsonify({'message': 'No data available.'}), 204
+
+
+@app.route('/data/temp-hum', methods=['GET'])
+def get_temp_hum():
     """
     Get temperature and humidity data for the last 24 hours.
     ---
@@ -89,27 +121,30 @@ def get_tempHum():
         200:
             description: A list of temperature and humidity data.
             schema:
-                type: array
-                items:
-                    type: object
-                    properties:
-                        timestamp:
-                            type: string
-                            format: date-time
-                        temperature:
-                            type: number
-                        humidity:
-                            type: number
+                type: object
+                properties:
+                    data:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                timestamp:
+                                    type: string
+                                    format: date-time
+                                temperature:
+                                    type: number
+                                humidity:
+                                    type: number
     """
     last_24h = datetime.utcnow() - timedelta(hours=24)
     data = Data.query.filter(Data.timestamp >= last_24h).all()
-    if data:
-        result = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'humidity': entry.humidity}
-                  for entry in data]
-        print(time(), result[:5])
-        return jsonify(result)
-    else:
-        return jsonify({'message': 'No data available.'}), 204
+    # if data:
+    result = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'humidity': entry.humidity}
+              for entry in data]
+    print(time(), result[:5])
+    return jsonify({"data": result})
+    # else:
+    #     return jsonify({'message': 'No data available.'}), 204
 
 
 @app.route('/data/sensors', methods=['GET'])
