@@ -11,7 +11,7 @@ float randomInRange(float min, float max)
 void initTemHum(void)
 {
 	puts("Here, initialize");
-    dht_params_t my_params;
+    const dht_params_t my_params;
 	puts("my_params declared");
     my_params.pin=GPIO_PIN(PORT_A, 8);
 	puts("port declared");
@@ -21,15 +21,15 @@ void initTemHum(void)
 	puts("mode declared");
 
 
-	dht_init(&dev, &my_params);
-	puts("Sensor initialized");
+	// dht_init(&dev, &my_params);
+	// puts("Sensor initialized");
 
-//    if(dht_init(&dev, &my_params)==DHT_OK){
-//        puts("DHT sensor connected");
-//    }
-//    else{
-//        puts("Failed to connect to DHT sensor");
-//    }
+   if(dht_init(&dev, &my_params)==DHT_OK){
+       puts("DHT sensor connected");
+   }
+   else{
+       puts("Failed to connect to DHT sensor");
+   }
 }
 
 bool getTempHum(void)
