@@ -38,62 +38,40 @@ class TemperatureActivity : AppCompatActivity() {
         setContentView(R.layout.activity_temperature)
         lineChart = findViewById(R.id.charttemp)
         textView = findViewById(R.id.textView)
-        val url = "http://10.0.2.2:5000/data/tempHum"
-
+        val url = "http://10.0.2.2:5000/data/temp-hum"
 
 
         val request = JsonObjectRequest(
             Request.Method.GET, url, null,
             { response->
-                val responseStr = response.toString()
-                Log.d("MainActivity", "Response: $responseStr")
-                val itemArray = JSONArray(response.toString())
-                Log.d("MainActivity", "${itemArray}")
+
+                val dataArray = response.getJSONArray("data")
+                Log.d("MainActivity", "${dataArray}")
 
                 val dataList = ArrayList<DataTempHum>()
-                for(i in 0 until itemArray.length() ) {
-                    val resultObject = itemArray.getJSONObject(i)
-                    val humidity = resultObject.getString("humidity")
-                    val temperature = resultObject.getString("temperature")
+                for (i in 0 until dataArray.length()) {
+                //for (i in 0 until 15) {
+                    val resultObject = dataArray.getJSONObject(i)
+                    val humidity = resultObject.getDouble("humidity")
+                    val temperature = resultObject.getDouble("temperature")
                     val timestamp = resultObject.getString("timestamp")
+                    textView.text=timestamp
 
                     val dataTempHum = DataTempHum(humidity, temperature, timestamp)
                     dataList.add(dataTempHum)
-
                 }
+                setUpLineChart()
+                setDataToLineChart(dataList)
 
             },
             { error->
-                Log.e("MainActivity", "${error.message}")
+                 Log.e("MainActivity", "Error during API call: ${error.localizedMessage}")
+                Log.e("MainActivity", "Status Code: ${error.networkResponse.statusCode}")
+                Log.e("MainActivity", "Response Data: ${String(error.networkResponse.data)}")
             })
         Volley.newRequestQueue(this).add(request)
 
 
-
-//        val jsonString = """
-//        [
-//          {
-//            "humidity": 34.4,
-//            "temperature": 26.9,
-//            "timestamp": "Tue, 02 Jan 2024 16:21:19 GMT"
-//          },
-//          {
-//            "humidity": 34.1,
-//            "temperature": 26.7,
-//            "timestamp": "Tue, 02 Jan 2024 16:21:29 GMT"
-//          },
-//          {
-//            "humidity": 34.1,
-//            "temperature": 27.0,
-//            "timestamp": "Tue, 02 Jan 2024 16:21:39 GMT"
-//          },
-//          {
-//            "humidity": 34.5,
-//            "temperature": 26.7,
-//            "timestamp": "Tue, 02 Jan 2024 16:21:49 GMT"
-//          }
-//        ]
-//    """
 
 
     }
