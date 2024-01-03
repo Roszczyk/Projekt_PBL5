@@ -48,10 +48,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     .position(loca)
                     .title("Hive Location"))
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(loca, 13f))
-           // mMap.setMinZoomPreference(14.0f)
-        }
 
-        // Add a marker in Sydney and move the camera
+        }
 
     }
 }
