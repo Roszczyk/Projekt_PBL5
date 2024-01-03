@@ -18,28 +18,43 @@
             android:layout_height="match_parent">
 
             <!-- ToolBar widget -->
+
+
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="match_parent"
+                android:layout_width="314dp"
                 android:layout_height="wrap_content"
-                android:background="#0F9D58"
+                android:background="#fdc62d"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:title="Temperature Chart"
+                app:titleTextColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="0dp"
+                android:layout_height="64dp"
+                android:background="#fdc62d"
+                android:clickable="true"
+                app:layout_constraintEnd_toStartOf="@+id/toolbar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:title="  GfG | Tool bar"
-                app:titleTextColor="#ffff" />
+                app:srcCompat="@drawable/back"
+                app:tint="@color/black" />
 
-            <com.github.mikephil.charting.charts.LineChart
-                android:id="@+id/charttemp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar"
-                tools:layout_editor_absoluteX="11dp">
-
-            </com.github.mikephil.charting.charts.LineChart>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/charttemp"
+        android:layout_width="match_parent"
+        android:layout_height="742dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        tools:layout_editor_absoluteX="-31dp"></com.github.mikephil.charting.charts.LineChart>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

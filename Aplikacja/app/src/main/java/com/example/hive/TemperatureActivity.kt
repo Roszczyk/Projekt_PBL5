@@ -1,5 +1,6 @@
 package com.example.hive
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
@@ -33,12 +34,13 @@ import java.util.Locale
 class TemperatureActivity : AppCompatActivity() {
 
     private lateinit var lineChart: LineChart
-    private lateinit var textView:  TextView
+    private lateinit var imageBack: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_temperature)
         lineChart = findViewById(R.id.charttemp)
+        imageBack = findViewById(R.id.btnBack)
 
         val url = "http://10.0.2.2:5000/data/temp-hum"
 
@@ -56,7 +58,7 @@ class TemperatureActivity : AppCompatActivity() {
 
 
                 val dataList = ArrayList<DataTempHum>()
-                for (i in 0 until dataArray.length()) {
+                for (i in (dataArray.length()-15) until dataArray.length()) {
                 //for (i in 0 until 15) {
                     val resultObject = dataArray.getJSONObject(i)
                     val humidity = resultObject.getDouble("humidity")
@@ -77,6 +79,10 @@ class TemperatureActivity : AppCompatActivity() {
             })
         Volley.newRequestQueue(this).add(request)
 
+        imageBack.setOnClickListener() {
+            val intent2 = Intent(this, MainActivity::class.java)
+            startActivity(intent2)
+        }
 
 
 
@@ -128,6 +134,7 @@ class TemperatureActivity : AppCompatActivity() {
 
         lineChart.invalidate()
     }
+
 
     private fun week1(dataTempHumList: List<DataTempHum>): ArrayList<Entry> {
         val sales = ArrayList<Entry>()
