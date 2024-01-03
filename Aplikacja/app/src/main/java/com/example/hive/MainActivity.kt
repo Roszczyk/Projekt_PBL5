@@ -195,6 +195,7 @@ class MainActivity : AppCompatActivity() {
                     },
                     { error ->
                         Log.e("MainActivity", "Error during API call: ${error.localizedMessage}")
+
                     }
                 )
                 Volley.newRequestQueue(this).add(request)

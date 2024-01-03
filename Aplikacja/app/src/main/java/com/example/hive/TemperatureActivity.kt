@@ -1,5 +1,6 @@
 package com.example.hive
 
+import android.content.Intent
 import android.icu.text.SimpleDateFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +8,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.android.volley.Request
 import com.android.volley.Response
@@ -37,7 +39,7 @@ class TemperatureActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_temperature)
         lineChart = findViewById(R.id.charttemp)
-        textView = findViewById(R.id.textView)
+
         val url = "http://10.0.2.2:5000/data/temp-hum"
 
 
@@ -45,8 +47,13 @@ class TemperatureActivity : AppCompatActivity() {
             Request.Method.GET, url, null,
             { response->
 
-                val dataArray = response.getJSONArray("data")
-                Log.d("MainActivity", "${dataArray}")
+                var dataArray = response.getJSONArray("data")
+                if(dataArray.toString()=="[]"){
+                    Toast.makeText(applicationContext,"Sorry, could not download the data",Toast.LENGTH_SHORT).show()
+                    val intent2 = Intent(this, MainActivity::class.java)
+                    startActivity(intent2)
+                }
+
 
                 val dataList = ArrayList<DataTempHum>()
                 for (i in 0 until dataArray.length()) {
@@ -55,11 +62,10 @@ class TemperatureActivity : AppCompatActivity() {
                     val humidity = resultObject.getDouble("humidity")
                     val temperature = resultObject.getDouble("temperature")
                     val timestamp = resultObject.getString("timestamp")
-                    textView.text=timestamp
-
                     val dataTempHum = DataTempHum(humidity, temperature, timestamp)
                     dataList.add(dataTempHum)
                 }
+
                 setUpLineChart()
                 setDataToLineChart(dataList)
 

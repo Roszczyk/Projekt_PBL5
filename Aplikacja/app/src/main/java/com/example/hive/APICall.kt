@@ -28,6 +28,7 @@ class ApiCall {
             override fun onFailure(t: Throwable?) {
                 // This method is called when the API request fails.
                 Toast.makeText(context, "Request Fail", Toast.LENGTH_SHORT).show()
+
             }
         })
     }
