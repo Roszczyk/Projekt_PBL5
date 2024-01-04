@@ -138,13 +138,45 @@ def get_temp_hum():
     """
     last_24h = datetime.utcnow() - timedelta(hours=24)
     data = Data.query.filter(Data.timestamp >= last_24h).all()
-    # if data:
     result = [{'timestamp': entry.timestamp, 'temperature': entry.temperature, 'humidity': entry.humidity}
               for entry in data]
     print(time(), result[:5])
+
     return jsonify({"data": result})
-    # else:
-    #     return jsonify({'message': 'No data available.'}), 204
+
+
+@app.route('/data/temp-hum-chart', methods=['GET'])
+def get_temp_hum_chart():
+    """
+    Get temperature and humidity data for the last 24 hours for usage in chart - HH:mm and only 10 reads.
+    ---
+    responses:
+        200:
+            description: A list of temperature and humidity data.
+            schema:
+                type: object
+                properties:
+                    data:
+                        type: array
+                        items:
+                            type: object
+                            properties:
+                                timestamp:
+                                    type: string
+                                    format: time (HH:mm)
+                                temperature:
+                                    type: number
+                                humidity:
+                                    type: number
+    """
+    last_24h = datetime.utcnow() - timedelta(hours=24)
+    data = Data.query.filter(Data.timestamp >= last_24h).order_by(
+        Data.timestamp.desc()).all()
+    result = [{'timestamp': entry.timestamp.strftime("%H:%M"), 'temperature': entry.temperature, 'humidity': entry.humidity}
+              for entry in data[:10]]
+    print(time(), result)
+
+    return jsonify({"data": result})
 
 
 @app.route('/data/sensors', methods=['GET'])
