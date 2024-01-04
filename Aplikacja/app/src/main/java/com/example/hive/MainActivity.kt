@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         ValLight = findViewById(R.id.lightstatus)
         ValHeat = findViewById(R.id.heatingstatus)
         ValUpdate = findViewById(R.id.updated_at)
-        progressBar = findViewById(R.id.loader)
+        //progressBar = findViewById(R.id.loader)
         BtnMap = findViewById(R.id.boxMap)
         BtnLight = findViewById(R.id.boxlight)
         BtnHeat = findViewById(R.id.boxheat)
@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         ImageLight = findViewById(R.id.imglight)
         ImageHeat = findViewById(R.id.imgheat)
         ImageCover = findViewById(R.id.imgcover)
-        progressBar.visibility = View.VISIBLE
+      //  progressBar.visibility = View.VISIBLE
 
 
 
@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
             ValUpdate.text = dateFormat.format(Date(currentTimestamp))
             ValTemp.text = "$temp°C"
             ValHum.text = "$hum%"
-            progressBar.visibility = View.GONE
+            //progressBar.visibility = View.GONE
 
         }
 
