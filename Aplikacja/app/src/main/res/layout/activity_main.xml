@@ -373,7 +373,7 @@
                 android:layout_marginStart="140dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="on"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imglight"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -426,7 +426,7 @@
                 android:layout_marginStart="140dp"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:text="off"
-                android:textSize="30sp"
+                android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgheat"
                 app:layout_constraintTop_toTopOf="parent" />
