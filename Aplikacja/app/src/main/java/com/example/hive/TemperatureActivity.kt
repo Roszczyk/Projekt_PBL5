@@ -60,7 +60,7 @@ class TemperatureActivity : AppCompatActivity() {
                     startActivity(intent2)
                 }
 
-
+                var evenCount =0
                 val dataList = ArrayList<DataTempHum>()
                 val timeList =ArrayList<String>()
                 for (i in (dataArray.length()-5) until dataArray.length()) {
@@ -71,11 +71,13 @@ class TemperatureActivity : AppCompatActivity() {
                     val timestamp = resultObject.getString("timestamp")
                     val dataTempHum = DataTempHum(humidity, temperature, timestamp)
                     dataList.add(dataTempHum)
+
                     timeList.add(timestamp)
                 }
 
-                setUpLineChart()
+                setUpLineChart(timeList)
                 setDataToLineChart(dataList)
+
 
             },
             { error->
@@ -96,7 +98,7 @@ class TemperatureActivity : AppCompatActivity() {
 
     }
 
-    private fun setUpLineChart() {
+    private fun setUpLineChart(timeList: List<String>) {
         with(lineChart) {
 
 
@@ -108,6 +110,7 @@ class TemperatureActivity : AppCompatActivity() {
             xAxis.granularity = 1F
             xAxis.setDrawGridLines(false)
             xAxis.setDrawAxisLine(false)
+            xAxis.valueFormatter=IndexAxisValueFormatter(timeList)
 
 
 
@@ -128,6 +131,7 @@ class TemperatureActivity : AppCompatActivity() {
     }
 
     private fun setDataToLineChart(dataTempHumList: List<DataTempHum>) {
+
 
         val lineTemp = LineDataSet(temp(dataTempHumList), "Temperature")
         lineTemp.lineWidth = 3f
