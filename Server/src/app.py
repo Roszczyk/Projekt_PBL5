@@ -148,7 +148,7 @@ def get_temp_hum():
 @app.route('/data/temp-hum-chart', methods=['GET'])
 def get_temp_hum_chart():
     """
-    Get temperature and humidity data for the last 24 hours for usage in chart - HH:mm and only 10 reads.
+    Get temperature and humidity data for the last 24 hours for usage in chart - HH:mm and only 12 reads.
     ---
     responses:
         200:
@@ -173,7 +173,7 @@ def get_temp_hum_chart():
     data = Data.query.filter(Data.timestamp >= last_24h).order_by(
         Data.timestamp.desc()).all()
     result = [{'timestamp': entry.timestamp.strftime("%H:%M"), 'temperature': entry.temperature, 'humidity': entry.humidity}
-              for entry in data[:10]]
+              for entry in data[:12]]
     print(time(), result)
 
     return jsonify({"data": result})
