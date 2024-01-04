@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 import json
 from time import time
 from distutils.util import strtobool
+from collections import defaultdict
 
 
 app = Flask(__name__)
@@ -33,25 +34,28 @@ class Data(db.Model):
     humidity = db.Column(DECIMAL(precision=4, scale=1), nullable=True)
     gps_lat = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
     gps_lon = db.Column(DECIMAL(precision=7, scale=4), nullable=True)
+    noise = db.Column(db.Boolean, nullable=True)
+    activity = db.Column(db.Boolean, nullable=True)
     digital_in = db.Column(db.Boolean, nullable=True)
 
 
 def payload2db(payload: str, session=db.session):
     payload = json.loads(payload)
 
+    default_dict = defaultdict(lambda: None, payload['decoded_payload'])
+
     dev_eui = payload['dev_EUI']
     timestamp = datetime.fromisoformat(payload['received_at'])
 
-    temperature = payload['decoded_payload']['temperature_0']
-    humidity = payload['decoded_payload']['relative_humidity_0']
+    temperature = default_dict['temperature_0']
+    humidity = default_dict['relative_humidity_0']
 
-    digital_in = payload['decoded_payload']['digital_in_0'] if "digital_in_0" in payload["decoded_payload"] else None
+    gps_lat = default_dict['gps_0']['latitude'] if default_dict['gps_0'] else None
+    gps_lon = default_dict['gps_0']['longitude'] if default_dict['gps_0'] else None
 
-    if "gps_0" in payload["decoded_payload"]:
-        gps_lat = payload['decoded_payload']['gps_0']['latitude']
-        gps_lon = payload['decoded_payload']['gps_0']['longitude']
-    else:
-        gps_lat, gps_lon = None, None
+    noise = default_dict['digital_in_1']
+    activity = default_dict['digital_in_2']
+    digital_in = default_dict['digital_in_0']
 
     with app.app_context():
         # Check if the device already exists in the database
@@ -65,7 +69,7 @@ def payload2db(payload: str, session=db.session):
 
         # Create a new Data object and add it to the database
         data = Data(device_id=device.id, timestamp=timestamp,
-                    temperature=temperature, humidity=humidity, gps_lat=gps_lat, gps_lon=gps_lon, digital_in=digital_in)
+                    temperature=temperature, humidity=humidity, gps_lat=gps_lat, gps_lon=gps_lon, noise=noise, activity=activity, digital_in=digital_in)
         session.add(data)
         session.commit()
 
@@ -200,6 +204,10 @@ def get_sensors():
                         type: number
                     digital_in:
                         type: boolean
+                    noise:
+                        type: boolean
+                    activity:
+                        type: boolean
                     lights:
                         type: boolean
                     heating:
@@ -211,9 +219,11 @@ def get_sensors():
         None)).order_by(Data.timestamp.desc()).first()
     data_digital_in = Data.query.filter(Data.digital_in.isnot(
         None)).order_by(Data.timestamp.desc()).first()
+    data_noise = Data.query.filter(Data.noise.isnot(
+        None)).order_by(Data.timestamp.desc()).first()
 
     result = {'temperature': None, 'humidity': None,
-              'gps_lat': None, 'gps_lon': None, 'digital_in': None}
+              'gps_lat': None, 'gps_lon': None, 'digital_in': None, 'noise': None, 'activity': None}
 
     if data_tempHum:
         result['temperature'] = data_tempHum.temperature
@@ -225,6 +235,10 @@ def get_sensors():
 
     if data_digital_in:
         result['digital_in'] = data_digital_in.digital_in
+
+    if data_noise:
+        result['noise'] = data_noise.noise
+        result['activity'] = data_noise.activity
 
     result['lights'] = app.devices['lights']
     result['heating'] = app.devices['heating']
