@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var BtnMap: LinearLayout
     private lateinit var BtnLight: LinearLayout
     private lateinit var BtnHeat: LinearLayout
+    private lateinit var BtnHum: LinearLayout
     private lateinit var BtnTemp: LinearLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var ImageLight: ImageView
@@ -50,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         ValUpdate = findViewById(R.id.updated_at)
         //progressBar = findViewById(R.id.loader)
         BtnMap = findViewById(R.id.boxMap)
+        BtnHum = findViewById(R.id.boxhum)
         BtnLight = findViewById(R.id.boxlight)
         BtnHeat = findViewById(R.id.boxheat)
         BtnTemp = findViewById(R.id.boxTemp)
@@ -120,6 +122,11 @@ class MainActivity : AppCompatActivity() {
         }
         BtnTemp.setOnClickListener() {
             val intent = Intent(this, TemperatureActivity::class.java)
+            startActivity(intent)
+
+        }
+        BtnHum.setOnClickListener() {
+            val intent = Intent(this, HumidityActivity::class.java)
             startActivity(intent)
 
         }

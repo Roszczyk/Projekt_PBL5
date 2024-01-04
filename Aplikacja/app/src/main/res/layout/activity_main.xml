@@ -65,7 +65,7 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:padding="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/boxhum"
         tools:layout_editor_absoluteX="25dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,7 +112,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout"
+        android:id="@+id/boxhum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -124,6 +124,7 @@
         android:padding="5dp"
         app:layout_constraintBottom_toTopOf="@+id/boxNoise"
         tools:layout_editor_absoluteX="25dp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
