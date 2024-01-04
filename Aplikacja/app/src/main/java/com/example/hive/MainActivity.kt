@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ValLight: TextView
     private lateinit var ValHeat:TextView
     private lateinit var ValUpdate: TextView
+    private lateinit var ValNoise:TextView
+    private lateinit var ValAtivity: TextView
     private lateinit var BtnMap: LinearLayout
     private lateinit var BtnLight: LinearLayout
     private lateinit var BtnHeat: LinearLayout
@@ -47,6 +49,8 @@ class MainActivity : AppCompatActivity() {
         ValHum = findViewById(R.id.humidity)
         ValOpen = findViewById(R.id.openstatus)
         ValLight = findViewById(R.id.lightstatus)
+        ValNoise = findViewById(R.id.noise)
+        ValAtivity = findViewById(R.id.activity)
         ValHeat = findViewById(R.id.heatingstatus)
         ValUpdate = findViewById(R.id.updated_at)
         //progressBar = findViewById(R.id.loader)
@@ -72,6 +76,8 @@ class MainActivity : AppCompatActivity() {
             var cover = payload.digital_in.toString()
             var heat = payload.heating.toString()
             var lig = payload.lights.toString()
+            var noise = payload.noise.toString()
+            var activity = payload.activity.toString()
             //TO DO when new version of payload NO GPS
             if (cover == "true") {
                 ValOpen.text = "open"
@@ -98,6 +104,18 @@ class MainActivity : AppCompatActivity() {
             else {
                 ValLight.text = "OFF"
                 ImageLight.setImageResource(R.drawable.light)
+            }
+            if (noise == "true") {
+                ValNoise.text = "high"
+            }
+            else {
+                ValNoise.text = "low"
+            }
+            if (activity == "true") {
+                ValAtivity.text = "high"
+            }
+            else {
+                ValAtivity.text = "low"
             }
 
 
