@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "fmt.h"
 #include "dht.h"
 #include "dht_params.h"
