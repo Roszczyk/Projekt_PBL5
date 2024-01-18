@@ -8,10 +8,12 @@ int main(void) {
     my_params.type=DHT11;
     my_params.in_mode=DHT_PARAM_PULL;
 
+    printf("my params declared\n");
     dht_t dev;
     if(dht_init(&dev, &my_params)==DHT_OK){
        printf("DHT sensor connected\n");
     }
+    else printf("DHT sensor error\n");
 
     int16_t temp, hum;
     if(dht_read(&dev, &temp, &hum)!=DHT_OK){
