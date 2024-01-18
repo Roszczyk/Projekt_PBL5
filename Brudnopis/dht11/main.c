@@ -1,6 +1,7 @@
 #include "fmt.h"
 #include "dht.h"
 #include "dht_params.h"
+#include "periph/gpio.h"
 
 int main(void) {
     dht_params_t my_params;
