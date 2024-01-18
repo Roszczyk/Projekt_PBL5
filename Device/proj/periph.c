@@ -25,7 +25,7 @@ void initTemHum(void)
 	// puts("Sensor initialized");
 
    if(dht_init(&dev, &my_params)==DHT_OK){
-       puts("DHT sensor connected");
+       printf("DHT sensor connected\n");
    }
    else{
        puts("Failed to connect to DHT sensor");
@@ -37,7 +37,9 @@ bool getTempHum(void)
     puts("getTempHum");
 
     int16_t temp, hum;
-    dht_read(&dev, &temp, &hum);
+    if(dht_read(&dev, &temp, &hum)!=DHT_OK){
+        printf("Error reading values\n");
+    }
 
     printf("temperature: %d, humidity: %d", temp, hum);
 

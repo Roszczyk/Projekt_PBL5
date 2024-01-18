@@ -1,6 +1,7 @@
 #ifndef PERIPH_H
 #define PERIPH_H
 #include "common.h"
+#include "fmt.h"
 #include "dht.h"
 #include "dht_params.h"
 
