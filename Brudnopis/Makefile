@@ -9,5 +9,6 @@ QUIET ?= 1
 
 USEMODULE += dht
 USEMODULE += fmt
+USEMODULE += xtimer
 
 include $(RIOTBASE)/Makefile.include
