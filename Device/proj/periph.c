@@ -28,7 +28,7 @@ void initTemHum(void)
    }
 }
 
-void initSoundMove()
+void initSoundMove(void)
 {
     soundPin=GPIO_PIN(PORT_A, 0);
     soundPin=GPIO_PIN(PORT_A, 8);
@@ -63,9 +63,9 @@ bool getTempHum(void)
 void getMoveSound(int * sound, int * move)
 {
     *sound = gpio_read(soundPin);
-    DEBUG("Value read from the pin sound: %d\n", *sound);
+    printf("Value read from the pin sound: %d\n", *sound);
     *move = gpio_read(soundPin);
-    DEBUG("Value read from the pin move: %d\n", *move);
+    printf("Value read from the pin move: %d\n", *move);
 }
 
 bool getGPS(void)

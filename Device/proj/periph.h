@@ -11,7 +11,8 @@ float randomInRange(float min, float max);
 void initTemHum(void);
 bool getTempHum(void);
 bool getGPS(void);
-void initSoundMove();
+
+void initSoundMove(void);
 void getMoveSound(int * sound, int * move);
 
 void setHeating(bool state);

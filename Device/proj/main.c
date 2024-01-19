@@ -156,7 +156,7 @@ static void *tempHumReader(void *arg)
 
     while (1)
     {
-        getTempHum();
+        // getTempHum();
 	puts("TempHumReader active");
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
@@ -168,15 +168,17 @@ static void *tempHumReader(void *arg)
 
 static void *SMReader(void *arg)
 {
+    (void)arg;
     int sound, move;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
     
     while(1){
         getMoveSound(&sound, &move);
-        DEBUG("sound: %d, move: %d", sound, move);
+        printf("sound: %d, move: %d", sound, move);
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
     }
+    return NULL;
 }
 
 // THERAD receiver
