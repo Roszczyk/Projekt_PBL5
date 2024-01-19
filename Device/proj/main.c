@@ -75,6 +75,7 @@ extern semtech_loramac_t loramac;
 
 cayenne_lpp_t lpp = {0};
 dht_t dev;
+gpio_t soundPin, movePin;
 
 
 #ifdef USE_OTAA
@@ -96,6 +97,7 @@ static char _recv_stack[THREAD_STACKSIZE_DEFAULT];
 #define SENSOR_PRIO (THREAD_PRIORITY_MAIN - 2)
 static char temphum_stack[THREAD_STACKSIZE_DEFAULT];
 static char gps_stack[THREAD_STACKSIZE_DEFAULT];
+static char sm_stack[THREAD_STACKSIZE_DEFAULT];
 
 void triggerUplink(void)
 {
@@ -151,7 +153,6 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-	puts("Sensor initialized");
 
     while (1)
     {
@@ -163,6 +164,19 @@ static void *tempHumReader(void *arg)
 
     /* this should never be reached */
     return NULL;
+}
+
+static void *SMReader(void *arg)
+{
+    int sound, move;
+    ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
+    
+    while(1){
+        getMoveSound(&pinSound, &pinMove, &sound, &move);
+        DEBUG("sound: %d, move: %d", sound, move);
+        ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
+        last_wakeup = ztimer_now(ZTIMER_MSEC);
+    }
 }
 
 // THERAD receiver
@@ -376,7 +390,8 @@ int main(void)
 
 #endif
 
-	initTemHum();
+	// initTemHum();
+    initSoundMove(&soundPin, &movePin);
 
     /* start the sender thread */
     sender_pid = thread_create(sender_stack, sizeof(sender_stack),
@@ -385,11 +400,14 @@ int main(void)
     thread_create(_recv_stack, sizeof(_recv_stack),
                   THREAD_PRIORITY_MAIN - 1, 0, _wait_recv, NULL, "receiver");
 
-    thread_create(temphum_stack, sizeof(temphum_stack),
-                  SENSOR_PRIO, 0, tempHumReader, NULL, "tempHumReader");
+    // thread_create(temphum_stack, sizeof(temphum_stack),
+    //               SENSOR_PRIO, 0, tempHumReader, NULL, "tempHumReader");
 
     thread_create(gps_stack, sizeof(gps_stack),
                   SENSOR_PRIO, 0, GPSReader, NULL, "GPSReader");
+
+    thread_create(sm_stack, sizeof(sm_stack),
+                  SENSOR_PRIO, 0, SMReader, NULL, "SMReader");
 
     gpio_init_int(USER_BUTTON, GPIO_IN, GPIO_BOTH, user_button_callback, NULL);
 

@@ -10,15 +10,10 @@ float randomInRange(float min, float max)
 
 void initTemHum(void)
 {
-	puts("Here, initialize");
     const dht_params_t my_params;
-	puts("my_params declared");
-    my_params.pin=GPIO_PIN(PORT_A, 8);
-	puts("port declared");
+    my_params.pin=GPIO_PIN(PORT_A, 10);
     my_params.type=DHT11;
-	puts("type declared");
     my_params.in_mode=DHT_PARAM_PULL;
-	puts("mode declared");
 
 
 	// dht_init(&dev, &my_params);
@@ -30,6 +25,14 @@ void initTemHum(void)
    else{
        puts("Failed to connect to DHT sensor");
    }
+}
+
+void initSoundMove(gpio_t * pinSound, gpio_t * pinMove)
+{
+    *pinSound=GPIO_PIN(PORT_A, 0);
+    *pinMove=GPIO_PIN(PORT_A, 8);
+    gpio_init(*pinSound, GPIO_IN);
+    gpio_init(*pinMove, GPIO_IN);
 }
 
 bool getTempHum(void)
@@ -54,6 +57,14 @@ bool getTempHum(void)
     cayenne_lpp_add_relative_humidity(&lpp, 0, hum);
 
     return PAM_OK;
+}
+
+void getMoveSound(gpio_t * pinSound, gpio_t * pinMove, int * sound, int * move)
+{
+    *sound = gpio_read(*pinSound);
+    DEBUG("Value read from the pin sound: %d\n", *sound);
+    *move = gpio_read(*pinMove);
+    DEBUG("Value read from the pin move: %d\n", *move);
 }
 
 bool getGPS(void)
