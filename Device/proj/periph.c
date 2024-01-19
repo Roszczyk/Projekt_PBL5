@@ -11,7 +11,7 @@ float randomInRange(float min, float max)
 
 void initTemHum(void)
 {
-    const dht_params_t my_params;
+    dht_params_t my_params;
     my_params.pin=GPIO_PIN(PORT_A, 10);
     my_params.type=DHT11;
     my_params.in_mode=DHT_PARAM_PULL;
