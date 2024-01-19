@@ -45,8 +45,6 @@ bool getTempHum(void)
         printf("Error reading values\n");
     }
 
-    printf("temperature: %d, humidity: %d", temp, hum);
-
     //static const float baseTemperature = temp; //27.2; // Example temperature
     //static const float baseHumidity = hum; //35.4;    // Example humidity
     //static const float range = 1.0;            // Range of ±1
@@ -54,8 +52,13 @@ bool getTempHum(void)
     //float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
     //float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
-    cayenne_lpp_add_temperature(&lpp, 0, temp);
-    cayenne_lpp_add_relative_humidity(&lpp, 0, hum);
+    float tempF, humF;
+    tempF=(float)temp/10;
+    humF=(float)hum/10;
+
+    cayenne_lpp_add_temperature(&lpp, 0, tempF);
+    cayenne_lpp_add_relative_humidity(&lpp, 0, humF);
+    printf("temperature: %f, humidity: %f\n", tempF, humF);
 
     return PAM_OK;
 }
@@ -66,6 +69,10 @@ void getMoveSound(int * sound, int * move)
     printf("Value read from the pin sound: %d\n", *sound);
     *move = gpio_read(soundPin);
     printf("Value read from the pin move: %d\n", *move);
+    // if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 255);
+    // else cayenne_lpp_add_presence(&lpp, 0, 0);
+
+    cayenne_lpp_add_presence(&lpp, )
 }
 
 bool getGPS(void)

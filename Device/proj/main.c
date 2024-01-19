@@ -51,7 +51,7 @@
 #include "periph.h"
 
 // to be removed - testing core functionality without wireless transmission
-#define LORA_OFF
+// #define LORA_OFF
 
 #define USER_BUTTON (BTN0_PIN)
 
