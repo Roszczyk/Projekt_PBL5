@@ -51,7 +51,6 @@
 #define SEND_PERIOD_S       (20U)
 #endif
 
-#define USE_OTAA
 /* Low-power mode level */
 #define PM_LOCK_LEVEL       (1)
 
