@@ -69,10 +69,10 @@ void getMoveSound(int * sound, int * move)
     printf("Value read from the pin sound: %d\n", *sound);
     *move = gpio_read(soundPin);
     printf("Value read from the pin move: %d\n", *move);
-    // if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 255);
-    // else cayenne_lpp_add_presence(&lpp, 0, 0);
-
-    cayenne_lpp_add_presence(&lpp, )
+    if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
+    else if (*sound > 0 || *move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
+    else if (*sound == 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0x0F);
+    else cayenne_lpp_add_presence(&lpp, 0, 0x00);
 }
 
 bool getGPS(void)

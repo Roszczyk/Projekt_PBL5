@@ -52,6 +52,7 @@
 
 // to be removed - testing core functionality without wireless transmission
 // #define LORA_OFF
+#define USE_OTAA
 
 #define USER_BUTTON (BTN0_PIN)
 
@@ -61,6 +62,7 @@
 
 #define GPS_PERIOD_S (35U)
 #define TEMPHUM_PERIOD_S (20U)
+#define SENSOR_PERIOD_S (30U)
 
 /* Low-power mode level */
 #define PM_LOCK_LEVEL (1)
@@ -175,7 +177,7 @@ static void *SMReader(void *arg)
     while(1){
         getMoveSound(&sound, &move);
         printf("sound: %d, move: %d", sound, move);
-        ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
+        ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, SENSOR_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
     }
     return NULL;
