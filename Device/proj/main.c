@@ -402,8 +402,8 @@ int main(void)
     thread_create(_recv_stack, sizeof(_recv_stack),
                   THREAD_PRIORITY_MAIN - 1, 0, _wait_recv, NULL, "receiver");
 
-    // thread_create(temphum_stack, sizeof(temphum_stack),
-    //               SENSOR_PRIO, 0, tempHumReader, NULL, "tempHumReader");
+    thread_create(temphum_stack, sizeof(temphum_stack),
+                  SENSOR_PRIO, 0, tempHumReader, NULL, "tempHumReader");
 
     thread_create(gps_stack, sizeof(gps_stack),
                   SENSOR_PRIO, 0, GPSReader, NULL, "GPSReader");
