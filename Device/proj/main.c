@@ -172,7 +172,7 @@ static void *SMReader(void *arg)
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
     
     while(1){
-        getMoveSound(&pinSound, &pinMove, &sound, &move);
+        getMoveSound(&sound, &move);
         DEBUG("sound: %d, move: %d", sound, move);
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
@@ -391,7 +391,7 @@ int main(void)
 #endif
 
 	// initTemHum();
-    initSoundMove(&soundPin, &movePin);
+    initSoundMove();
 
     /* start the sender thread */
     sender_pid = thread_create(sender_stack, sizeof(sender_stack),

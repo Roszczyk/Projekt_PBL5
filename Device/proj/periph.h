@@ -11,8 +11,8 @@ float randomInRange(float min, float max);
 void initTemHum(void);
 bool getTempHum(void);
 bool getGPS(void);
-void initSoundMove(gpio_t * pinSound, gpio_t * pinMove);
-void getMoveSound(gpio_t * pinSound, gpio_t * pinMove);
+void initSoundMove();
+void getMoveSound(int * sound, int * move);
 
 void setHeating(bool state);
 void setLights(bool state);

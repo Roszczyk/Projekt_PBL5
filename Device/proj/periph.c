@@ -2,6 +2,7 @@
 
 extern cayenne_lpp_t lpp;
 extern dht_t dev;
+extern gpio_t soundPin, movePin;
 
 float randomInRange(float min, float max)
 {
@@ -27,12 +28,12 @@ void initTemHum(void)
    }
 }
 
-void initSoundMove(gpio_t * pinSound, gpio_t * pinMove)
+void initSoundMove()
 {
-    *pinSound=GPIO_PIN(PORT_A, 0);
-    *pinMove=GPIO_PIN(PORT_A, 8);
-    gpio_init(*pinSound, GPIO_IN);
-    gpio_init(*pinMove, GPIO_IN);
+    soundPin=GPIO_PIN(PORT_A, 0);
+    soundPin=GPIO_PIN(PORT_A, 8);
+    gpio_init(soundPin, GPIO_IN);
+    gpio_init(soundPin, GPIO_IN);
 }
 
 bool getTempHum(void)
@@ -59,11 +60,11 @@ bool getTempHum(void)
     return PAM_OK;
 }
 
-void getMoveSound(gpio_t * pinSound, gpio_t * pinMove, int * sound, int * move)
+void getMoveSound(int * sound, int * move)
 {
-    *sound = gpio_read(*pinSound);
+    *sound = gpio_read(soundPin);
     DEBUG("Value read from the pin sound: %d\n", *sound);
-    *move = gpio_read(*pinMove);
+    *move = gpio_read(soundPin);
     DEBUG("Value read from the pin move: %d\n", *move);
 }
 
