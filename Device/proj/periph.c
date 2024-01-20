@@ -40,7 +40,7 @@ bool getTempHum(void)
 {
     puts("getTempHum");
 
-    int16_t temp, hum;
+    //int16_t temp, hum;
     //if(dht_read(&dev, &temp, &hum)!=DHT_OK){
     //    printf("Error reading values\n");
     //}
@@ -73,7 +73,7 @@ void getMoveSound(int * sound, int * move)
     if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
     else if (*sound > 0 || *move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
     else if (*sound == 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0x0F);
-    else cayenne_lpp_add_presence(&lpp, 0, 0x00);
+    else cayenne_lpp_add_presence(&lpp, 0, 0x11);
 }
 
 bool getGPS(void)
