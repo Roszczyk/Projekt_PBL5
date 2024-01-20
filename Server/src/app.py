@@ -338,6 +338,10 @@ def post_data(path):
             path: value
         }
     }
+    
+    # payload= { "downlinks": [{ "f_port": 15, "frm_payload": "vu8=", "priority": "NORMAL" }] }
+
+    print("PAYLOAD TUTAJ !!!!!!!!!!!!!!!!!!!!!1\n", payload, "\n\n")
 
     client.publish(topic_pub, json.dumps(payload))
 
@@ -368,7 +372,7 @@ if __name__ == '__main__':
     client.username_pw_set(mqtt_username, password_mqtt)
     client.connect("eu1.cloud.thethings.network", 1883)
     topic_sub = f"v3/{mqtt_username}/devices/{device_id}/up"
-    topic_pub = f"v3/{mqtt_username}/devices/{device_id}/down"
+    topic_pub = f"v3/{mqtt_username}/devices/{device_id}/down/push"
 
     client.subscribe(topic_sub)
     client.loop_start()

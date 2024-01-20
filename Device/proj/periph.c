@@ -31,9 +31,9 @@ void initTemHum(void)
 void initSoundMove(void)
 {
     soundPin=GPIO_PIN(PORT_A, 0);
-    soundPin=GPIO_PIN(PORT_A, 8);
+    movePin=GPIO_PIN(PORT_A, 8);
     gpio_init(soundPin, GPIO_IN);
-    gpio_init(soundPin, GPIO_IN);
+    gpio_init(movePin, GPIO_IN);
 }
 
 bool getTempHum(void)
@@ -95,12 +95,12 @@ void setHeating(bool state)
 {
     if (state)
     {
-        // gpio_set(GPIOA, GPIO5);
+        gpio_set(PORT_A, 5);
         puts("Heating on");
     }
     else
     {
-        // gpio_clear(GPIOA, GPIO5);
+        gpio_clear(PORT_A, 5);
         puts("Heating off");
     }
 }
@@ -109,12 +109,12 @@ void setLights(bool state)
 {
     if (state)
     {
-        // gpio_set(GPIOA, GPIO5);
+        gpio_set(PORT_A, 6);
         puts("Lights on");
     }
     else
     {
-        // gpio_clear(GPIOA, GPIO5);
+        gpio_clear(PORT_A, 6);
         puts("Lights off");
     }
 }
