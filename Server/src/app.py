@@ -360,10 +360,15 @@ if __name__ == '__main__':
     client.on_message = on_message
     client.on_publish = on_publish
 
-    client.username_pw_set("rw", "readwrite")
-    client.connect("test.mosquitto.org", 1884)
-    topic_sub = "PAM-PBL5/RIOT-test-uplink"
-    topic_pub = "PAM-PBL5/RIOT-test-downlink"
+    mqtt_username="pam-pbl5-app@ttn"
+    device_id="eui-70b3d57ed0062e09"
+
+    password_mqtt="NNSXS.AGEJAV36C5MABKJM67MAGQ6G4EZMTL37GPWUOTQ.IIL46KPPV2QZUECWURID2IUEHIV324HLP3NEV6A7OKIRMNY4LMVA"
+
+    client.username_pw_set(mqtt_username, password_mqtt)
+    client.connect("eu1.cloud.thethings.network", 1883)
+    topic_sub = f"v3/{mqtt_username}/devices/{device_id}/up"
+    topic_pub = f"v3/{mqtt_username}/devices/{device_id}/down"
 
     client.subscribe(topic_sub)
     client.loop_start()
