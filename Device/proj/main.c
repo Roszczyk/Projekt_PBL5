@@ -52,12 +52,11 @@
 
 // to be removed - testing core functionality without wireless transmission
 // #define LORA_OFF
-#define USE_OTAA
 
 #define USER_BUTTON (BTN0_PIN)
 
 #ifndef SEND_PERIOD_S
-#define SEND_PERIOD_S (20U)
+#define SEND_PERIOD_S (40U)
 #endif
 
 #define GPS_PERIOD_S (35U)
@@ -158,7 +157,7 @@ static void *tempHumReader(void *arg)
 
     while (1)
     {
-        // getTempHum();
+        getTempHum();
 	puts("TempHumReader active");
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
@@ -194,7 +193,7 @@ static void *_wait_recv(void *arg)
 #endif
 
     while (1)
-    {
+    {	printf("Listening\n");
         /* blocks until something is received */
         switch (semtech_loramac_recv(&loramac))
         {
