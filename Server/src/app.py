@@ -349,22 +349,22 @@ def post_data(path):
     app.devices[path] = value
 
     # placeholder for proper payload to Helium/TTN
-    # payload = {
-    #     "f_port": 1,
-    #     "payload": {
-    #         path: value
-    #     }
-    # }
+    payload = {
+        "f_port": 1,
+        "payload": {
+            path: value
+        }
+    }
 
     payload="Nothing"
     
-    if path=="heating" and value=="True":
-        payload='{ "downlinks": [{ "f_port": 15, "frm_payload": SDE=", "priority": "NORMAL" }] }'
-    elif path=="heating" and value=="False":
+    if path=="heating" and value==True:
+        payload='{ "downlinks": [{ "f_port": 15, "frm_payload": "SDE=", "priority": "NORMAL" }] }'
+    elif path=="heating" and value==False:
         payload='{ "downlinks": [{ "f_port": 15, "frm_payload": "SDA=", "priority": "NORMAL" }] }'
-    elif path=="lights" and value=="True":
+    elif path=="lights" and value==True:
         payload ='{ "downlinks": [{ "f_port": 15, "frm_payload": "TDE=", "priority": "NORMAL" }] }'
-    elif path=="lights" and value=="False":
+    elif path=="lights" and value==False:
         payload='{ "downlinks": [{ "f_port": 15, "frm_payload": "TDA=", "priority": "NORMAL" }] }'
     else: 
         print("Something is no yes")
