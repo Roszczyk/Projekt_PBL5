@@ -73,7 +73,7 @@ void getMoveSound(int * sound, int * move)
     if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
     else if (*sound > 0 || *move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
     else if (*sound == 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0x0F);
-    else cayenne_lpp_add_presence(&lpp, 0, 0x11);
+    else cayenne_lpp_add_presence(&lpp, 0, 0x00);
 }
 
 bool getGPS(void)
@@ -95,12 +95,12 @@ void setHeating(bool state)
 {
     if (state)
     {
-        gpio_set(PORT_A, 5);
+        gpio_set(PORT_A, 3);
         puts("Heating on");
     }
     else
     {
-        gpio_clear(PORT_A, 5);
+        gpio_clear(PORT_A, 3);
         puts("Heating off");
     }
 }
@@ -109,12 +109,12 @@ void setLights(bool state)
 {
     if (state)
     {
-        gpio_set(PORT_A, 6);
+        gpio_set(PORT_A, 4);
         puts("Lights on");
     }
     else
     {
-        gpio_clear(PORT_A, 6);
+        gpio_clear(PORT_A, 4);
         puts("Lights off");
     }
 }
