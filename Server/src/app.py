@@ -42,9 +42,11 @@ class Data(db.Model):
 def payload2db(payload: str, session=db.session):
     payload = json.loads(payload)
 
-    default_dict = defaultdict(lambda: None, payload['decoded_payload'])
+    default_dict = defaultdict(lambda: None, payload['uplink_message']['decoded_payload'])
 
-    dev_eui = payload['dev_EUI']
+    print("Default dict: ", default_dict)
+
+    dev_eui = payload["end_device_ids"]['dev_eui']
     timestamp = datetime.fromisoformat(payload['received_at'])
 
     temperature = default_dict['temperature_0']
@@ -53,9 +55,24 @@ def payload2db(payload: str, session=db.session):
     gps_lat = default_dict['gps_0']['latitude'] if default_dict['gps_0'] else None
     gps_lon = default_dict['gps_0']['longitude'] if default_dict['gps_0'] else None
 
-    noise = default_dict['digital_in_1']
-    activity = default_dict['digital_in_2']
+    if default_dict['presence_0']==0xFF:
+        noise=True
+        activity=True
+    if (default_dict['presence_0']==0xF0):
+        noise=True
+        activity=False
+    if (default_dict['presence_0']==0x0F):
+        noise=False
+        activity=True
+    if default_dict['presence_0']==0x00:
+        noise=False
+        activity=False
+
+    # noise = default_dict['digital_in_1']
+    # activity = default_dict['presence_0']
     digital_in = default_dict['digital_in_0']
+
+    print("GPS: ", gps_lat, gps_lon, " temp: ", temperature, " hum: ", humidity)
 
     with app.app_context():
         # Check if the device already exists in the database
@@ -332,14 +349,15 @@ def post_data(path):
     app.devices[path] = value
 
     # placeholder for proper payload to Helium/TTN
-    payload = {
-        "f_port": 1,
-        "payload": {
-            path: value
-        }
-    }
+    # payload = {
+    #     "f_port": 1,
+    #     "payload": {
+    #         path: value
+    #     }
+    # }
     
-    # payload= { "downlinks": [{ "f_port": 15, "frm_payload": "vu8=", "priority": "NORMAL" }] }
+    
+    payload= { "downlinks": [{ "f_port": 15, "payload": {path: value}, "priority": "NORMAL" }] }
 
     print("PAYLOAD TUTAJ !!!!!!!!!!!!!!!!!!!!!1\n", payload, "\n\n")
 
