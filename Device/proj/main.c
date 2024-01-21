@@ -109,27 +109,41 @@ void triggerUplink(void)
 
 bool executeDecodePayload(uint8_t *payload, uint8_t len)
 {
-    if (len == 2)
-    {
-        switch (payload[0])
-        {
-        case 0x01:
-            setLights(payload[1]);
-            break;
+    // if (len == 2)
+    // {
+    //     switch (payload[0])
+    //     {
+    //     case 0x01:
+    //         setLights(payload[1]);
+    //         break;
 
-        case 0x02:
-            setHeating(payload[1]);
-            break;
+    //     case 0x02:
+    //         setHeating(payload[1]);
+    //         break;
 
-        default:
-            ERR("Unknown command: %d", payload[0]);
-            return PAM_ERR;
-            break;
-        }
-        return PAM_OK;
+    //     default:
+    //         ERR("Unknown command: %d", payload[0]);
+    //         return PAM_ERR;
+    //         break;
+    //     }
+        // return PAM_OK;
+    // }
+
+    if (strcmp((char*)payload, "L1")==0){
+        setLights(TRUE);
     }
+    else if (strcmp((char*)payload, "L0")==0){
+        setLights(FALSE);
+    }
+    else if (strcmp((char*)payload, "H1")==0){
+        setHeating(TRUE);
+    }
+    else if (strcmp((char*)payload, "H0")==0){
+        setHeating(FALSE);
+    }
+    else return PAM_ERR
 
-    return PAM_ERR;
+    return PAM_OK;
 }
 
 // THERAD GPS
