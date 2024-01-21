@@ -3,6 +3,7 @@
 extern cayenne_lpp_t lpp;
 extern dht_t dev;
 extern gpio_t soundPin, movePin;
+extern gpio_t lightPin, heatingPin;
 
 float randomInRange(float min, float max)
 {
@@ -91,16 +92,23 @@ bool getGPS(void)
     return PAM_OK;
 }
 
+void initSets(void){
+    lightPin=GPIO_PIN(PORT_A, 3);
+    heatingPin=GPIO_PIN(PORT_A, 4);
+    gpio_init(lightPin, GPIO_OUT);
+    gpio_init(heatingPin, GPIO_OUT);
+}
+
 void setHeating(bool state)
 {
     if (state)
     {
-        gpio_set(PORT_A, 3);
+        gpio_set(heatingPin);
         puts("Heating on");
     }
     else
     {
-        gpio_clear(PORT_A, 3);
+        gpio_clear(heatingPin);
         puts("Heating off");
     }
 }
@@ -109,12 +117,12 @@ void setLights(bool state)
 {
     if (state)
     {
-        gpio_set(PORT_A, 4);
+        gpio_set(lightPin);
         puts("Lights on");
     }
     else
     {
-        gpio_clear(PORT_A, 4);
+        gpio_clear(lightPin);
         puts("Lights off");
     }
 }

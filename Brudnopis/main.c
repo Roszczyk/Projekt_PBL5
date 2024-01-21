@@ -2,7 +2,6 @@
 #include "periph/gpio.h"
 #include "xtimer.h"
 #include "shell.h"
-//#include "semtech_loramac.h"
 
 int main(void) {
 	gpio_t pin1;

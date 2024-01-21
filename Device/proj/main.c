@@ -77,6 +77,7 @@ extern semtech_loramac_t loramac;
 cayenne_lpp_t lpp = {0};
 dht_t dev;
 gpio_t soundPin, movePin;
+gpio_t lightPin, heatingPin;
 
 
 #ifdef USE_OTAA
@@ -191,6 +192,7 @@ static void *_wait_recv(void *arg)
 #ifdef LORA_OFF
     return NULL;
 #endif
+    initSets();
 
     while (1)
     {	printf("Listening\n");
