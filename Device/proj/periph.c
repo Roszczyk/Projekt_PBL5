@@ -58,8 +58,8 @@ bool getTempHum(void)
     //humF=(float)hum/10;
 	tempF=randomTemperature;
 	humF=randomHumidity;
-    cayenne_lpp_add_temperature(&lpp, 0, (int)tempF);
-    cayenne_lpp_add_relative_humidity(&lpp, 0, (int)humF);
+    cayenne_lpp_add_temperature(&lpp, 0, tempF);
+    cayenne_lpp_add_relative_humidity(&lpp, 0, humF);
     printf("temperature: %f, humidity: %f\n", tempF, humF);
 
     return PAM_OK;
