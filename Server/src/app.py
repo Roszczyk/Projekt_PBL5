@@ -355,13 +355,23 @@ def post_data(path):
     #         path: value
     #     }
     # }
+
+    payload="Nothing"
     
-    
-    payload= { "downlinks": [{ "f_port": 15, "payload": {path: value}, "priority": "NORMAL" }] }
+    if path=="heating" and value=="True":
+        payload='{ "downlinks": [{ "f_port": 15, "frm_payload": SDE=", "priority": "NORMAL" }] }'
+    elif path=="heating" and value=="False":
+        payload='{ "downlinks": [{ "f_port": 15, "frm_payload": "SDA=", "priority": "NORMAL" }] }'
+    elif path=="lights" and value=="True":
+        payload ='{ "downlinks": [{ "f_port": 15, "frm_payload": "TDE=", "priority": "NORMAL" }] }'
+    elif path=="lights" and value=="False":
+        payload='{ "downlinks": [{ "f_port": 15, "frm_payload": "TDA=", "priority": "NORMAL" }] }'
+    else: 
+        print("Something is no yes")
 
     print("PAYLOAD TUTAJ !!!!!!!!!!!!!!!!!!!!!1\n", payload, "\n\n")
 
-    client.publish(topic_pub, json.dumps(payload))
+    client.publish(topic_pub, payload)
 
     return jsonify({'message': 'Data published successfully.'}), 200
 
