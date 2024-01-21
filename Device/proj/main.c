@@ -128,20 +128,20 @@ bool executeDecodePayload(uint8_t *payload, uint8_t len)
     //     }
         // return PAM_OK;
     // }
-
+	(void)len;
     if (strcmp((char*)payload, "L1")==0){
-        setLights(TRUE);
+        setLights(1);
     }
     else if (strcmp((char*)payload, "L0")==0){
-        setLights(FALSE);
+        setLights(0);
     }
     else if (strcmp((char*)payload, "H1")==0){
-        setHeating(TRUE);
+        setHeating(1);
     }
     else if (strcmp((char*)payload, "H0")==0){
-        setHeating(FALSE);
+        setHeating(0);
     }
-    else return PAM_ERR
+    else return PAM_ERR;
 
     return PAM_OK;
 }
