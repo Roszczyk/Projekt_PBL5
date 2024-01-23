@@ -47,13 +47,21 @@ def payload2db(payload: str, session=db.session):
     print("Default dict: ", default_dict)
 
     dev_eui = payload["end_device_ids"]['dev_eui']
-    timestamp = datetime.fromisoformat(payload['received_at'])
+    # # timestamp = datetime.fromisoformat(payload['received_at'])
+    # if payload['received_at'][-1] == 'Z':
+    #     payload['received_at'] = payload['received_at'][:-1]
+    # timestamp = datetime.strptime(payload['received_at'], '%Y-%m-%dT%H:%M:%S.%f')
+    timestamp = datetime.now()
+
 
     temperature = default_dict['temperature_0']
     humidity = default_dict['relative_humidity_0']
 
     gps_lat = default_dict['gps_0']['latitude'] if default_dict['gps_0'] else None
     gps_lon = default_dict['gps_0']['longitude'] if default_dict['gps_0'] else None
+
+    noise=None
+    activity=None
 
     if default_dict['presence_0']==0xFF:
         noise=True
