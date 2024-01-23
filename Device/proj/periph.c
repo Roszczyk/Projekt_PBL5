@@ -31,8 +31,9 @@ void initTemHum(void)
 
 void initSoundMove(void)
 {
+	puts("Init pin readers");
     soundPin=GPIO_PIN(PORT_A, 0);
-    movePin=GPIO_PIN(PORT_A, 8);
+    movePin=GPIO_PIN(PORT_B, 12);
     gpio_init(soundPin, GPIO_IN);
     gpio_init(movePin, GPIO_IN);
 }
@@ -65,16 +66,17 @@ bool getTempHum(void)
     return PAM_OK;
 }
 
-void getMoveSound(int * sound, int * move)
+void getMoveSound()
 {
-    *sound = gpio_read(soundPin);
-    printf("Value read from the pin sound: %d\n", *sound);
-    *move = gpio_read(soundPin);
-    printf("Value read from the pin move: %d\n", *move);
-    if (*sound > 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
-    else if (*sound > 0 || *move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
-    else if (*sound == 0 || *move > 0) cayenne_lpp_add_presence(&lpp, 0, 0x0F);
-    else cayenne_lpp_add_presence(&lpp, 0, 0x00);
+	int sound, move;
+    sound = gpio_read(soundPin);
+    printf("Value read from the pin sound: %d\n", sound);
+    move = gpio_read(soundPin);
+    printf("Value read from the pin move: %d\n", move);
+    if (sound > 0 && move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
+    else if (sound > 0 && move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
+    else if (sound == 0 && move > 0) cayenne_lpp_add_presence(&lpp, 0, 0x0F);
+    else cayenne_lpp_add_presence(&lpp, 0, 0x01);
 }
 
 bool getGPS(void)
@@ -86,9 +88,9 @@ bool getGPS(void)
 
     float randomLatitude = randomInRange(baseLatitude - range, baseLatitude + range);
     float randomLongitude = randomInRange(baseLongitude - range, baseLongitude + range);
-
+	puts("Before cayenne");
     cayenne_lpp_add_gps(&lpp, 0, randomLatitude, randomLongitude, 0);
-
+	puts("After cayenne");
     return PAM_OK;
 }
 
