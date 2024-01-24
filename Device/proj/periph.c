@@ -103,6 +103,7 @@ bool getGPS(void)
 
 void initSets(void)
 {
+    puts("initSets");
     lightPin = GPIO_PIN(PORT_A, 3);
     heatingPin = GPIO_PIN(PORT_A, 4);
     gpio_init(lightPin, GPIO_OUT);
