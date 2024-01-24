@@ -66,13 +66,13 @@ def payload2db(payload: str, session=db.session):
     if default_dict['presence_0']==0xFF:
         noise=True
         activity=True
-    if (default_dict['presence_0']==0xF0):
+    if default_dict['presence_0']==0xF0:
         noise=True
         activity=False
-    if (default_dict['presence_0']==0x0F):
+    if default_dict['presence_0']==0x0F:
         noise=False
         activity=True
-    if default_dict['presence_0']==0x00:
+    if default_dict['presence_0']==0x01:
         noise=False
         activity=False
 
