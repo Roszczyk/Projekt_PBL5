@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             var noise = payload.noise.toString()
             var activity = payload.activity.toString()
             //TO DO when new version of payload NO GPS
-            if (cover == "true") {
+            if (cover == "false") {
                 ValOpen.text = "open"
                 ImageCover.setImageResource(R.drawable.openclose)
             }
