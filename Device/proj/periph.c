@@ -16,17 +16,20 @@ void initTemHum(void)
     my_params.pin = GPIO_PIN(PORT_A, 10);
     my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
-
+	int8_t trying = 15;
     puts("Initializing DHT");
-
+	while(trying>0){
     if (dht_init(&dev, &my_params) == DHT_OK)
     {
         printf("DHT sensor connected\n");
+	trying = 0;
     }
     else
     {
         puts("Failed to connect to DHT sensor");
+	trying--;
     }
+}
 }
 
 void initSoundMove(void)
@@ -55,8 +58,8 @@ bool getTempHum(void)
     //float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
     float tempF, humF;
-    tempF=(float)temp/10;
-    humF=(float)hum/10;
+    tempF=(float)temp/10.0;
+    humF=(float)hum/10.0;
     //tempF = randomTemperature;
     //humF = randomHumidity;
     cayenne_lpp_add_temperature(&lpp, 0, tempF);
