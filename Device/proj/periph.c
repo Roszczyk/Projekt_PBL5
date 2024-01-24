@@ -14,12 +14,10 @@ void initTemHum(void)
 {
     dht_params_t my_params;
     my_params.pin = GPIO_PIN(PORT_A, 10);
-    my_params.type = DHT11;
+    my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
 
     puts("Initializing DHT");
-    dht_init(&dev, &my_params);
-    puts("Sensor initialized");
 
     if (dht_init(&dev, &my_params) == DHT_OK)
     {
@@ -44,26 +42,26 @@ bool getTempHum(void)
 {
     puts("getTempHum");
 
-    // int16_t temp, hum;
-    // if(dht_read(&dev, &temp, &hum)!=DHT_OK){
-    //     printf("Error reading values\n");
-    // }
+    int16_t temp, hum;
+    if(dht_read(&dev, &temp, &hum)!=DHT_OK){
+	 printf("Error reading values\n");
+    }
 
-    static const float baseTemperature = 27.2; // Example temperature
-    static const float baseHumidity = 35.4;    // Example humidity
-    static const float range = 1.0;            // Range of ±1
+    //static const float baseTemperature = 27.2; // Example temperature
+    //static const float baseHumidity = 35.4;    // Example humidity
+    //static const float range = 1.0;            // Range of ±1
 
-    float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
-    float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
+    //float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
+    //float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
     float tempF, humF;
-    // tempF=(float)temp/10;
-    // humF=(float)hum/10;
-    tempF = randomTemperature;
-    humF = randomHumidity;
+    tempF=(float)temp/10;
+    humF=(float)hum/10;
+    //tempF = randomTemperature;
+    //humF = randomHumidity;
     cayenne_lpp_add_temperature(&lpp, 0, tempF);
     cayenne_lpp_add_relative_humidity(&lpp, 0, humF);
-    // printf("temperature: %f, humidity: %f\n", tempF, humF);
+    printf("temperature: %d, humidity: %d\n", temp, hum);
 
     return PAM_OK;
 }
