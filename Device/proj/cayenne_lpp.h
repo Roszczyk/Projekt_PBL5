@@ -29,7 +29,7 @@ extern "C" {
  * @brief Max Cayenne LPP buffer size allowed
  */
 #ifndef CAYENNE_LPP_MAX_BUFFER_SIZE
-#define CAYENNE_LPP_MAX_BUFFER_SIZE          (42U)
+#define CAYENNE_LPP_MAX_BUFFER_SIZE          (100U)
 #endif
 
 /**

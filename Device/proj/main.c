@@ -185,12 +185,12 @@ static void *tempHumReader(void *arg)
 static void *SMReader(void *arg)
 {
     (void)arg;
-    int sound, move;
+    //int sound, move;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
     
     while(1){
-        getMoveSound(&sound, &move);
-        printf("sound: %d, move: %d", sound, move);
+        getMoveSound();
+        //printf("sound: %d, move: %d", sound, move);
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, SENSOR_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
     }
