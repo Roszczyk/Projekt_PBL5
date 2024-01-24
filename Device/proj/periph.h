@@ -13,7 +13,7 @@ bool getTempHum(void);
 bool getGPS(void);
 
 void initSoundMove(void);
-void getMoveSound();
+void getMoveSound(void);
 
 void initSets(void);
 void setHeating(bool state);

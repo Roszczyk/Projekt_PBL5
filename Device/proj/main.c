@@ -169,7 +169,7 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-
+//	initTemHum();
     while (1)
     {
         getTempHum();
@@ -294,6 +294,9 @@ void user_button_callback(void *args)
         // msg.content.value = tmp;
         // msg_send(&msg, sender_pid);
         printf("Press time: %ld\r\n", tmp);
+	cayenne_lpp_add_digital_input(&lpp, 0, false);
+	triggerUplink();
+
     }
 }
 
@@ -332,7 +335,7 @@ int main(void)
 #ifdef LORA_OFF
     puts("LoRaWAN is disabled using #define LORA_OFF");
 #endif
-
+//initTemHum();
     /*
      * Enable deep sleep power mode (e.g. STOP mode on STM32) which
      * in general provides RAM retention after wake-up.
@@ -366,11 +369,16 @@ int main(void)
         puts("Starting join procedure");
         tmp = ztimer_now(ZTIMER_MSEC);
 
+	uint8_t tryingConnect=30;
+	while(tryingConnect>0){
         if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED)
         {
             puts("Join procedure failed");
-            return 1;
-        }
+            tryingConnect--;
+		xtimer_sleep(3);
+		puts("Trying again");
+        } else tryingConnect=0;
+	}
         tmp = ztimer_now(ZTIMER_MSEC) - tmp;
         printf("Join time: %ld\r\n", tmp);
 
@@ -409,7 +417,7 @@ int main(void)
 
 #endif
 
-	// initTemHum();
+	//initTemHum();
     initSoundMove();
 
     /* start the sender thread */
