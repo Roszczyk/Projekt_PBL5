@@ -66,12 +66,12 @@ bool getTempHum(void)
     return PAM_OK;
 }
 
-void getMoveSound()
+void getMoveSound(void)
 {
 	int sound, move;
     sound = gpio_read(soundPin);
     printf("Value read from the pin sound: %d\n", sound);
-    move = gpio_read(soundPin);
+    move = gpio_read(movePin);
     printf("Value read from the pin move: %d\n", move);
     if (sound > 0 && move > 0) cayenne_lpp_add_presence(&lpp, 0, 0xFF);
     else if (sound > 0 && move == 0) cayenne_lpp_add_presence(&lpp, 0, 0xF0);
