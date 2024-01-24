@@ -294,6 +294,7 @@ void user_button_callback(void *args)
         // msg.content.value = tmp;
         // msg_send(&msg, sender_pid);
         printf("Press time: %ld\r\n", tmp);
+	cayenne_lpp_add_digital_input(&lpp, 0, false);
     }
 }
 
@@ -332,7 +333,7 @@ int main(void)
 #ifdef LORA_OFF
     puts("LoRaWAN is disabled using #define LORA_OFF");
 #endif
-
+//initTemHum();
     /*
      * Enable deep sleep power mode (e.g. STOP mode on STM32) which
      * in general provides RAM retention after wake-up.
@@ -414,7 +415,7 @@ int main(void)
 
 #endif
 
-	initTemHum();
+	//initTemHum();
     initSoundMove();
 
     /* start the sender thread */

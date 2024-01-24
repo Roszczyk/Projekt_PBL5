@@ -2,6 +2,7 @@
 
 extern cayenne_lpp_t lpp;
 extern dht_t dev;
+dht_t * iDev = &dev;
 extern gpio_t soundPin, movePin;
 extern gpio_t lightPin, heatingPin;
 
@@ -17,10 +18,11 @@ void initTemHum(void)
     my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
 	int8_t trying = 15;
-    puts("Initializing DHT");
+//	dht_t dev;  
+  puts("Initializing DHT");
 	while(trying>0){
 	puts("Trying to initialize DHT22");
-    if (dht_init(&dev, &my_params) == DHT_OK)
+    if (dht_init(iDev, &my_params) == DHT_OK)
     {
         printf("DHT sensor connected\n");
 	trying = 0;
@@ -45,12 +47,14 @@ void initSoundMove(void)
 bool getTempHum(void)
 {
     puts("getTempHum");
-
+//	dht_t dev;
     int16_t temp, hum;
-    if(dht_read(&dev, &temp, &hum)!=DHT_OK){
-	 printf("Error reading values\n");
-    }
-
+//    if(dht_read(iDev, &temp, &hum)!=DHT_OK){
+//	 printf("Error reading values\n");
+//    }
+//
+	temp=220;
+	hum=441;
 	printf("Odczytano: temp %d, hum %d\n", temp, hum);
 
     //static const float baseTemperature = 27.2; // Example temperature
@@ -107,7 +111,7 @@ bool getGPS(void)
 void initSets(void)
 {
     puts("initSets");
-    lightPin = GPIO_PIN(PORT_A, 3);
+    lightPin = GPIO_PIN(PORT_B, 9);
     heatingPin = GPIO_PIN(PORT_A, 4);
     gpio_init(lightPin, GPIO_OUT);
     gpio_init(heatingPin, GPIO_OUT);
