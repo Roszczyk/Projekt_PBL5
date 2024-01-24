@@ -295,6 +295,8 @@ void user_button_callback(void *args)
         // msg_send(&msg, sender_pid);
         printf("Press time: %ld\r\n", tmp);
 	cayenne_lpp_add_digital_input(&lpp, 0, false);
+	triggerUplink();
+
     }
 }
 
