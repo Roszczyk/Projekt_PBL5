@@ -19,6 +19,7 @@ void initTemHum(void)
 	int8_t trying = 15;
     puts("Initializing DHT");
 	while(trying>0){
+	puts("Trying to initialize DHT22");
     if (dht_init(&dev, &my_params) == DHT_OK)
     {
         printf("DHT sensor connected\n");
@@ -49,6 +50,8 @@ bool getTempHum(void)
     if(dht_read(&dev, &temp, &hum)!=DHT_OK){
 	 printf("Error reading values\n");
     }
+
+	printf("Odczytano: temp %d, hum %d\n", temp, hum);
 
     //static const float baseTemperature = 27.2; // Example temperature
     //static const float baseHumidity = 35.4;    // Example humidity

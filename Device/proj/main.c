@@ -169,7 +169,7 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-
+//	initTemHum();
     while (1)
     {
         getTempHum();
@@ -414,7 +414,7 @@ int main(void)
 
 #endif
 
-	// initTemHum();
+	initTemHum();
     initSoundMove();
 
     /* start the sender thread */
