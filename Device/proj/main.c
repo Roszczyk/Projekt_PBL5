@@ -366,11 +366,16 @@ int main(void)
         puts("Starting join procedure");
         tmp = ztimer_now(ZTIMER_MSEC);
 
+	uint8_t tryingConnect=30;
+	while(tryingConnect>0){
         if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED)
         {
             puts("Join procedure failed");
-            return 1;
-        }
+            tryingConnect--;
+		xtimer_sleep(3);
+		puts("Trying again");
+        } else tryingConnect=0;
+	}
         tmp = ztimer_now(ZTIMER_MSEC) - tmp;
         printf("Join time: %ld\r\n", tmp);
 
