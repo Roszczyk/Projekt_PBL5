@@ -61,7 +61,7 @@ bool getTempHum(void)
 	humF=randomHumidity;
     cayenne_lpp_add_temperature(&lpp, 0, tempF);
     cayenne_lpp_add_relative_humidity(&lpp, 0, humF);
-    printf("temperature: %f, humidity: %f\n", tempF, humF);
+    // printf("temperature: %f, humidity: %f\n", tempF, humF);
 
     return PAM_OK;
 }
@@ -82,8 +82,8 @@ void getMoveSound(void)
 bool getGPS(void)
 {
     puts("getGPS");
-    static const float baseLatitude = 37.7749;    // Example latitude
-    static const float baseLongitude = -122.4194; // Example longitude
+    static const float baseLatitude = 52.2187;    // Example latitude
+    static const float baseLongitude = 21.0117; // Example longitude
     static const float range = 0.0002;            // Range of ±0.0002
 
     float randomLatitude = randomInRange(baseLatitude - range, baseLatitude + range);
