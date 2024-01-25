@@ -5,11 +5,12 @@
 #include "fmt.h"
 #include "dht.h"
 #include "dht_params.h"
+#include "xtimer.h"
 
 float randomInRange(float min, float max);
 
-void initTemHum(void);
-bool getTempHum(void);
+void initTemHum(dht_t * dht);
+bool getTempHum(dht_t * dht);
 bool getGPS(void);
 
 void initSoundMove(void);

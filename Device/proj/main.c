@@ -50,6 +50,7 @@
 #include "common.h"
 #include "periph.h"
 
+#include "sema.h"
 // to be removed - testing core functionality without wireless transmission
 // #define LORA_OFF
 
@@ -78,6 +79,7 @@ cayenne_lpp_t lpp = {0};
 dht_t dev;
 gpio_t soundPin, movePin;
 gpio_t lightPin, heatingPin;
+sema_t semaphore_init;
 
 
 #ifdef USE_OTAA
@@ -169,10 +171,12 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-//	initTemHum();
+	sema_wait(&semaphore_init);
+	initTemHum(&dev);
+	sema_post(&semaphore_init);
     while (1)
     {
-        getTempHum();
+        getTempHum(&dev);
 	puts("TempHumReader active");
         ztimer_periodic_wakeup(ZTIMER_MSEC, &last_wakeup, TEMPHUM_PERIOD_S * MS_PER_SEC);
         last_wakeup = ztimer_now(ZTIMER_MSEC);
@@ -335,7 +339,8 @@ int main(void)
 #ifdef LORA_OFF
     puts("LoRaWAN is disabled using #define LORA_OFF");
 #endif
-//initTemHum();
+//initTemHum(&dev);
+//getTempHum(&dev);
     /*
      * Enable deep sleep power mode (e.g. STOP mode on STM32) which
      * in general provides RAM retention after wake-up.
@@ -369,7 +374,7 @@ int main(void)
         puts("Starting join procedure");
         tmp = ztimer_now(ZTIMER_MSEC);
 
-	uint8_t tryingConnect=30;
+	uint8_t tryingConnect=2; // 30;
 	while(tryingConnect>0){
         if (semtech_loramac_join(&loramac, LORAMAC_JOIN_OTAA) != SEMTECH_LORAMAC_JOIN_SUCCEEDED)
         {
@@ -380,7 +385,7 @@ int main(void)
         } else tryingConnect=0;
 	}
         tmp = ztimer_now(ZTIMER_MSEC) - tmp;
-        printf("Join time: %ld\r\n", tmp);
+        printf("Join time: %ld\r\n", tmp); 
 
 #ifdef MODULE_PERIPH_EEPROM
         /* Save current MAC state to EEPROM */

@@ -2,7 +2,7 @@
 
 extern cayenne_lpp_t lpp;
 extern dht_t dev;
-dht_t * iDev = &dev;
+//dht_t * iDev = &dev;
 extern gpio_t soundPin, movePin;
 extern gpio_t lightPin, heatingPin;
 
@@ -11,10 +11,10 @@ float randomInRange(float min, float max)
     return min + ((float)rand() / RAND_MAX) * (max - min);
 }
 
-void initTemHum(void)
+void initTemHum(dht_t * dht)
 {
     dht_params_t my_params;
-    my_params.pin = GPIO_PIN(PORT_A, 10);
+    my_params.pin = GPIO_PIN(PORT_B, 5);
     my_params.type = DHT22;
     my_params.in_mode = DHT_PARAM_PULL;
 	int8_t trying = 15;
@@ -22,7 +22,7 @@ void initTemHum(void)
   puts("Initializing DHT");
 	while(trying>0){
 	puts("Trying to initialize DHT22");
-    if (dht_init(iDev, &my_params) == DHT_OK)
+    if (dht_init(dht, &my_params) == DHT_OK)
     {
         printf("DHT sensor connected\n");
 	trying = 0;
@@ -32,6 +32,7 @@ void initTemHum(void)
         puts("Failed to connect to DHT sensor");
 	trying--;
     }
+	xtimer_sleep(1);
 }
 }
 
@@ -44,17 +45,17 @@ void initSoundMove(void)
     gpio_init(movePin, GPIO_IN);
 }
 
-bool getTempHum(void)
+bool getTempHum(dht_t * dht)
 {
     puts("getTempHum");
 //	dht_t dev;
     int16_t temp, hum;
-//    if(dht_read(iDev, &temp, &hum)!=DHT_OK){
-//	 printf("Error reading values\n");
-//    }
-//
-	temp=220;
-	hum=441;
+    if(dht_read(dht, &temp, &hum)!=DHT_OK){
+	 printf("Error reading values\n");
+    }
+
+//	temp=220;
+//	hum=441;
 	printf("Odczytano: temp %d, hum %d\n", temp, hum);
 
     //static const float baseTemperature = 27.2; // Example temperature
