@@ -50,7 +50,7 @@
 #include "common.h"
 #include "periph.h"
 
-#include "sema.h"
+//#include "sema.h"
 // to be removed - testing core functionality without wireless transmission
 // #define LORA_OFF
 
@@ -79,7 +79,7 @@ cayenne_lpp_t lpp = {0};
 dht_t dev;
 gpio_t soundPin, movePin;
 gpio_t lightPin, heatingPin;
-sema_t semaphore_init;
+//sema_t semaphore_init;
 
 
 #ifdef USE_OTAA
@@ -171,9 +171,9 @@ static void *tempHumReader(void *arg)
 {
     (void)arg;
     ztimer_now_t last_wakeup = ztimer_now(ZTIMER_MSEC);
-	sema_wait(&semaphore_init);
-	initTemHum(&dev);
-	sema_post(&semaphore_init);
+//	sema_wait(&semaphore_init);
+//	initTemHum(&dev);
+//	sema_post(&semaphore_init);
     while (1)
     {
         getTempHum(&dev);

@@ -47,32 +47,33 @@ void initSoundMove(void)
 
 bool getTempHum(dht_t * dht)
 {
+(void)dht;
     puts("getTempHum");
 //	dht_t dev;
-    int16_t temp, hum;
-    if(dht_read(dht, &temp, &hum)!=DHT_OK){
-	 printf("Error reading values\n");
-    }
+    //int16_t temp, hum;
+  //  if(dht_read(dht, &temp, &hum)!=DHT_OK){
+//	 printf("Error reading values\n");
+  //  }
 
 //	temp=220;
 //	hum=441;
-	printf("Odczytano: temp %d, hum %d\n", temp, hum);
+//	printf("Odczytano: temp %d, hum %d\n", temp, hum);
 
-    //static const float baseTemperature = 27.2; // Example temperature
-    //static const float baseHumidity = 35.4;    // Example humidity
-    //static const float range = 1.0;            // Range of ±1
+    static const float baseTemperature = 27.2; // Example temperature
+    static const float baseHumidity = 35.4;    // Example humidity
+    static const float range = 1.0;            // Range of ±1
 
-    //float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
-    //float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
+    float randomTemperature = randomInRange(baseTemperature - range, baseTemperature + range);
+    float randomHumidity = randomInRange(baseHumidity - range, baseHumidity + range);
 
     float tempF, humF;
-    tempF=(float)temp/10.0;
-    humF=(float)hum/10.0;
-    //tempF = randomTemperature;
-    //humF = randomHumidity;
+    //tempF=(float)temp/10.0;
+    //humF=(float)hum/10.0;
+    tempF = randomTemperature;
+    humF = randomHumidity;
     cayenne_lpp_add_temperature(&lpp, 0, tempF);
     cayenne_lpp_add_relative_humidity(&lpp, 0, humF);
-    printf("temperature: %d, humidity: %d\n", temp, hum);
+    printf("temperature: %d, humidity: %d\n", (int)tempF, (int)humF);
 
     return PAM_OK;
 }
